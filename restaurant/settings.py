@@ -144,6 +144,8 @@ STATICFILES_DIRS = [
     BASE_DIR / "static",
 ]
 
+STATIC_ROOT = BASE_DIR / "staticfiles"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
@@ -151,16 +153,11 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 CART_SESSION_ID = "cart"
 
-SESSION_COOKIE_AGE = (
-    3600  # Время жизни сессионного cookie в секундах (по умолчанию 2 недели)
-)
+SESSION_COOKIE_AGE = 3600
 
-# Если включено, сессия будет сохраняться только в течение времени активности пользователя
-SESSION_EXPIRE_AT_BROWSER_CLOSE = (
-    False  # Устанавливаем False, чтобы сессия сохранялась после закрытия браузера
-)
 
-# Убедитесь, что сессии сохраняются в базе данных или файле (по умолчанию база данных)
+SESSION_EXPIRE_AT_BROWSER_CLOSE = False
+
 SESSION_ENGINE = "django.contrib.sessions.backends.db"
 MEDIA_URL = "/media/"
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")

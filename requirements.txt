@@ -4,3 +4,4 @@ pycryptodome==3.21.0
 requests==2.32.3
 python-telegram-bot==20.2
 pyOpenSSL==24.2.1
+Pillow>=8.0.0

@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'global.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    />
+
+  </head>
+  <body>
+    <section class="menu-item2" id="item-details">
+      <div class="content">
+          <div class="left">
+              {% if item.image %}
+                <img class="right-icon" loading="lazy" alt="" src="{{ item.image.url }}" />
+              {% else %}
+                <img class="right-icon" loading="lazy" alt="Placeholder" src="{% static 'path/to/placeholder.jpg' %}" />
+              {% endif %}
+              <div class="item-details">
+                  <h2 class="item-title">{{ item.name }}</h2>
+                  <p class="item-price">From €<span id="base-price">{{ item.price }}</span></p>
+                  <p class="item-description">{{ item.description }}</p>
+  
+                  {% if item.variants.all %}
+                  <div class="variants-section">
+                      <p class="variants-title">Variants</p>
+                      {% for variant in item.variants.all %}
+                      <div class="variant-item">
+                        <label>
+                          <input type="radio" name="variant" value="{{ variant.name }}" onchange="updatePrice({{item.id}});" data-variant-name="{{ variant.id }}" />
+                          {{ variant.name }} (€<span class="variant-price">{{ variant.price }}</span>)
+                      </label>
+                      </div>
+                      {% endfor %}
+                  </div>
+                  {% endif %}
+                  <div class="variant-quantity-controls">
+                    <div class="quantity-buttons" id="variant-quantity-buttons-{{ item.id }}" style="display: none;">
+                      <button class="quantity-btn decrease" id="decrease" data-item-id="{{ item.id }}" data-item-price="{{ item.price }}" data-variant-name="{{variant.id}}" onclick="VariantQuantity({{item.id}}, 'decrease', '{{variant.name}}')">-</button>
+                      <span class="quantity" id="variant-quantity-{{ item.id }}" data-item-id="{{ item.id }}" data-order-id="{{ order.order_id }}" data-variant-name="{{variant.id}}">
+                          {{ item.quantity }}
+                      </span>
+                      <button class="quantity-btn increase" id="increase" data-item-id="{{ item.id }}" data-item-price="{{ item.price }}" data-variant-name="{{variant.name}}" onclick="VariantQuantity({{item.id}}, 'increase', '{{variant.name}}')">+</button>
+                  </div>
+  
+                  <button type="button" class="add-btn" id="variant-add-button-{{item.id}}" data-item-id="{{ item.id }}" onclick="addItemToCart( getCurrentPrice(), {{item.id}});">
+                      Add €<span id="total-price">{{ item.price }}</span>
+                  </button>
+                </div>
+          <button class="close-variants-btn" onclick="closeVariantDetails('{{category.name}}')">Close</button>
+      </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <input type="hidden" id="tableId" value="{{ table_id }}">
+    <script>
+
+    </script>
+  </body>
+</html>
+
+

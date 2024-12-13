@@ -1,0 +1,1023 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'global.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+
+.description5,
+.name3 {
+  position: absolute;
+  left: 96px;
+  font-family: var(--text-16-regular);
+  color: var(--black);
+  text-align: left;
+  display: inline-block;
+}
+.name3 {
+  margin: 0;
+  top: 26px;
+  font-size: var(--h1-mobile-size);
+  line-height: 32px;
+  font-weight: 600;
+  width: 247px;
+}
+.description5 {
+  top: 62px;
+  font-size: var(--text-16-regular-size);
+  line-height: 24px;
+  width: 248px;
+}
+
+      .address {
+        font-weight: 600;
+      }
+      .address,
+      .r-da-palmeira {
+        position: relative;
+        font-size: var(--text-16-regular-size);
+        line-height: 24px;
+        font-family: var(--text-16-regular);
+        color: var(--black);
+        text-align: left;
+      }
+      .row {
+        position: absolute;
+        top: 96px;
+        left: 16px;
+        border-bottom: 1px solid var(--lightest-grey);
+        box-sizing: border-box;
+        width: 328px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: var(--padding-base) 0 var(--padding-sm);
+        gap: var(--gap-5xs);
+      }
+      .phone,
+      .div5 {
+        font-weight: 600;
+        font-size: var(--text-16-regular-size);
+        line-height: 24px;
+        font-family: var(--text-16-regular);
+        color: var(--black);
+        text-align: left;
+      }
+
+      .phone {
+        font-weight: 600;
+        font-size: var(--text-16-regular-size);
+        line-height: 24px;
+        font-family: var(--text-16-regular);
+        color: var(--black);
+        text-align: left;
+      }
+      
+      .div5 {
+        font-size: var(--text-16-regular-size);
+        line-height: 24px;
+        font-family: var(--text-16-regular);
+        color: var(--black);
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        flex-direction: row;
+      }
+      .website {
+        font-weight: 600;
+      }
+      .oystermargaritacom,
+      .website {
+        position: relative;
+        font-size: var(--text-16-regular-size);
+        line-height: 24px;
+        font-family: var(--text-16-regular);
+        color: var(--black);
+        text-align: left;
+      }
+      .iconinst {
+        height: 24px;
+        width: 24px;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+
+      }
+      .label14 {
+        position: relative;
+        font-size: var(--text-16-regular-size);
+        line-height: 24px;
+        font-weight: 600;
+        font-family: var(--text-16-regular);
+        color: var(--black);
+        text-align: left;
+        display: none;
+      }
+      .default-button3 {
+        position: absolute;
+        top: 400px;
+        left: 16px;
+        border-radius: var(--br-5xl);
+        background-color: var(--lightest-grey);
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: var(--padding-xs);
+        gap: var(--gap-5xs);
+      }
+
+      .label15 {
+        position: relative;
+        font-size: var(--text-16-regular-size);
+        line-height: 24px;
+        font-weight: 600;
+        font-family: var(--text-16-regular);
+        color: var(--black);
+        text-align: left;
+        display: none;
+      }
+      .default-button4 {
+        position: absolute;
+        top: 384px;
+        left: 80px;
+        border-radius: var(--br-5xl);
+        background-color: var(--lightest-grey);
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: var(--padding-xs);
+        gap: var(--gap-5xs);
+      }
+
+      .label16 {
+        position: relative;
+        font-size: var(--text-16-regular-size);
+        line-height: 24px;
+        font-weight: 600;
+        font-family: var(--text-16-regular);
+        color: var(--black);
+        text-align: left;
+        display: none;
+      }
+      .container,
+      .default-button5 {
+        position: absolute;
+        overflow: hidden;
+      }
+      .default-button5 {
+        top: 384px;
+        left: 144px;
+        border-radius: var(--br-5xl);
+        background-color: var(--lightest-grey);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: var(--padding-xs);
+        gap: var(--gap-5xs);
+      }
+      .container {
+        top: 56px;
+        left: 0;
+        border-radius: var(--br-5xl) var(--br-5xl) 0 0;
+        background-color: var(--white);
+        width: 100%;
+        height: 600px;
+        z-index: 9999px;
+      }
+      .iconclose {
+        height: 24px;
+        width: 24px;
+        position: relative;
+        overflow: hidden;
+        flex-shrink: 0;
+        object-fit: cover;
+      }
+      .label17 {
+        position: relative;
+        font-size: var(--text-16-regular-size);
+        line-height: 24px;
+        font-weight: 600;
+        font-family: var(--text-16-regular);
+        color: var(--black);
+        text-align: left;
+        display: none;
+      }
+      .default-button6 {
+        position: absolute;
+        top: 0;
+        left: 304px;
+        box-shadow: var(--shadow-button);
+        border-radius: var(--br-5xl);
+        background-color: var(--white);
+        overflow: hidden;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        padding: var(--padding-5xs);
+        gap: var(--gap-5xs);
+      }
+      .modal {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        height: 600px;
+        padding-button: 30px;
+      
+      }
+      .menu-contacts {
+        margin: 0;
+        width: 360px;
+
+        background-color: var(--white);
+        max-width: 100%;
+        overflow: hidden;
+        line-height: normal;
+        letter-spacing: normal;
+      }
+
+
+      .background,
+    .menu-contacts-child {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100vh;
+
+    }
+    .menu-contacts-child {
+      background-color: rgba(0, 0, 0, 0.4);
+      height: 100%;
+      z-index: 9999px;
+    }
+
+      #information {
+        display: none;
+      }
+
+      .category-menu {
+        width: 100%;
+        padding: 10px;
+        background-color: #ffffff;
+        border-bottom: 1px solid #eaeaea;
+        position: static;
+        top: 10;
+        z-index: 100;
+    }
+    
+    .category-menu ul {
+        list-style: none;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1rem;
+        margin: 0;
+        padding: 0 1rem;
+        justify-content: flex-start;
+    }
+    
+    .category-menu li {
+        margin: 0;
+        padding: 0;
+    }
+    
+    .category-menu a {
+        display: inline-block;
+        padding: 0.5rem 1.5rem;
+        background-color: #f0f0f0;
+        color: #333333;
+        text-decoration: none;
+        border-radius: 50px;
+        font-size: 1rem;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+    
+    .category-menu a:hover {
+        background-color: #e0e0e0;
+    }
+    
+    .category-menu a.active {
+        background-color: #333333;
+        color: #ffffff;
+    }
+    
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+        .category-menu ul {
+            padding: 0 0.5rem;
+        }
+        
+        .category-menu a {
+            padding: 0.4rem 1.2rem;
+            font-size: 0.9rem;
+        }
+    }
+        .checkoutButton {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 90%;
+            max-width: 400px;
+            background-color: #1a202c;
+            color: white;
+            border: none;
+            border-radius: 9999px;
+            padding: 16px 24px;
+            font-size: 18px;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 9999;
+        }
+        .checkoutButton:hover {
+            background-color: #2d3748;
+        }
+        .total-price {
+            font-weight: bold;
+        }
+
+        .catalogue {
+          position: relative;
+          top: 180px;
+          left: 0;
+          box-shadow: var(--shadow-header);
+          border-top: 1px solid var(--lightest-grey);
+          height: 49px;
+          overflow-x: auto;
+          flex-direction: row;
+          padding: 0 var(--padding-base);
+          gap: 20px;
+        }
+        .element {
+          align-self: stretch;
+          position: relative;
+          font-family: var(--text-16-regular);
+          text-align: left;
+          padding-left: 30px; /* Внутренний отступ слева */
+          padding-bottom: 10px; /* Внутренний отступ снизу */
+          font-size: 22px;
+          line-height: 24px;
+          font-weight: 1000;
+          color: var(--black);
+          padding-top: 30px;
+           }
+
+           Fixed Catalog Menu Styles
+
+           /* Контейнер для всего заголовка */
+           .header {
+               width: 100%;
+               position: relative;
+               height: 229px;
+               overflow: visible; /* Изменено с hidden на visible */
+           }
+           
+           /* Контейнер для меню-каталога */
+           .tab {
+               position: absolute;
+               top: 180px;
+               left: 0;
+               right: 0; /* Добавлено */
+               width: 100%;
+               height: 48px;
+               background-color: var(--white);
+               border-top: 1px solid var(--lightest-grey);
+               box-shadow: var(--shadow-header);
+               overflow-x: auto; /* Добавлено */
+               overflow-y: hidden;
+           }
+           
+           /* Контейнер для элементов меню */
+           .tab-content {
+               display: inline-flex; /* Изменено с flex на inline-flex */
+               flex-direction: row;
+               flex-wrap: nowrap; /* Добавлено */
+               align-items: center;
+               padding: 0 var(--padding-base);
+               gap: 20px;
+               min-width: min-content; /* Добавлено */
+               height: 100%;
+               -webkit-overflow-scrolling: touch;
+           }
+           
+           /* Стили для элементов меню */
+           .tab-content a {
+               display: inline-block;
+               padding: 8px 16px;
+               text-decoration: none;
+               color: inherit;
+               white-space: nowrap;
+               flex-shrink: 0; /* Добавлено */
+           }
+           
+           .category-menu {
+            position: sticky;
+            top: 0; /* Измените в соответствии с высотой вашего header'а */
+            z-index: 100;
+            background: white; /* или любой другой цвет фона */
+            padding-bottom: 20px;
+        }
+        
+        .category-menu a {
+            text-decoration: none;
+            color: inherit;
+            padding: 8px 16px;
+            display: inline-block;
+        }
+        
+        .category-menu a.active {
+          background-color: #1a202c;
+            color: #your-accent-color;
+            font-weight: bold;
+            border-bottom: 2px solid #your-accent-color;
+        }
+        
+        .subcategory-section {
+            scroll-margin-top: 100px; /* Соответствует headerOffset в JavaScript */
+            padding-top: 20 px;
+            margin-top: 20px;
+        }
+
+        .element-padding {
+          padding-top: 10px;
+          margin-top: 10px;
+        }
+
+        
+    </style>
+  </head>
+  <body>
+    {% csrf_token %}
+    <form class="menu">
+      <div class="label">
+      </div>
+      <img class="cover-icon" alt="" src="{% static 'IMG_6941.jpg' %}" />
+
+
+        <a class="label2"></a>
+      </div>
+      <section class="header">
+          <div class="tab">
+            <div class="tab-content">
+              {% for category in category_list reversed %}
+                  <button type="button" 
+                          class="label3" 
+                          onclick="showContent('{{ category.name|lower|slugify }}', event)"
+                          {% if forloop.first %}data-default="true"{% endif %}>
+                      {{ category.name }}
+                  </button>
+                  <div class="underline"></div>
+              {% endfor %}
+        </div>
+      </div>
+        <div class="top">
+          <button class="default-button1" type="button" id="waiter">
+            <img class="iconwaiter" alt="" src="{% static 'pngegg.png' %}" />
+
+            <div class="label8">Call waiter</div>
+          </button>
+          <button class="default-button2" type="button" id="information-btn" onclick="loadInformation()">
+            <img
+              class="iconplaceholder"
+              alt=""
+              src="./public/iconplaceholder.svg"
+            />
+
+            <div class="label9">Information</div>
+          </button>
+          <h3 class="name2">Oyster + Margarita</h3>
+          <div class="description">Seafood and Caviar bar</div>
+          <img
+            class="avatar-icon"
+            loading="lazy"
+            alt=""
+            src="{% static 'IMG_7123.jpg' %}"
+          />
+        </div>
+      </section>
+
+
+        {% for category in category_list %}
+        <section class="menu-item" 
+                id="{{ category.name|lower|slugify }}" 
+                {% if not forloop.first %}style="display:none;"{% endif %}>
+            {% if category.subcategories.all %}
+            <nav class="category-menu">
+              <ul>
+                  {% for subcategory in category.sorted_subcategories %}
+                  <li>
+                      <a href="#subcategory-{{ subcategory.name|slugify }}" 
+                         onclick="event.preventDefault(); scrollToCategory('subcategory-{{ subcategory.name|slugify }}')">
+                          {{ subcategory.name }}
+                      </a>
+                  </li>
+                  {% endfor %}
+              </ul>
+          </nav>
+          
+          {% for subcategory in category.sorted_subcategories %}
+          <div id="subcategory-{{ subcategory.name|slugify }}" class="subcategory-section">
+            <div class="label10">{{ subcategory.name }}</div>
+              <ul>
+                  {% for item in subcategory.items.all %}
+                  <li>
+                    <div class="element-padding"><div class="label10">{{ item.name }}</div></div>
+                      <div class="description1">{{ item.description }}</div>
+                                <div class="price" id="price-{{ item.id }}">
+                                    {% if item.variants.all %}
+                                        from {{ item.price }} €
+                                    {% else %}
+                                        {{ item.price }} €
+                                    {% endif %}
+                                </div>
+                                <div class="bottom">
+                                    {% if item.image %}
+                                      <img class="right-icon" loading="lazy" alt="" src="{{ item.image.url }}" />
+                                    {% else %}
+                                        <img class="right-icon" loading="lazy" alt="Placeholder" src="{% static 'path/to/placeholder.jpg' %}" />
+                                    {% endif %}
+                                    <button type="button" class="add-button" 
+                                        {% if item.variants.all %}
+                                            onclick="loadItemDetails('{{item.name}}')"
+                                        {% else %}
+                                            onclick="addToCart('{{ item.name }}', {{ item.price }});"
+                                        {% endif %}
+                                    >Add</button>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            {% else %}
+                <ul>
+                    {% for item in category.items.all %}
+                        <li>
+                          <div class="element-padding"><div class="label10">{{ item.name }}</div></div>
+                            <div class="description1">{{ item.description }}</div>
+                            <div class="price" id="price-{{ item.id }}">
+                                {% if item.variants.all %}
+                                    from {{ item.price }} €
+                                {% else %}
+                                    {{ item.price }} €
+                                {% endif %}
+                            </div>
+                            <div class="bottom">
+                              {% if item.image %}
+                                <img class="right-icon" loading="lazy" alt="" src="{{ item.image.url }}" />
+                              {% else %}
+                                <img class="right-icon" loading="lazy" alt="Placeholder" src="{% static 'path/to/placeholder.jpg' %}" />
+                              {% endif %}
+                                <button type="button" class="add-button"
+                                    {% if item.variants.all %}
+                                        onclick="loadItemDetails('{{item.name}}')"
+                                    {% else %}
+                                        onclick="addToCart('{{ item.name }}', {{ item.price }});"
+                                    {% endif %}
+                                >Add</button>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+        {% endfor %}
+
+      <input type="hidden" id="tableId" value="{{ table_id }}">
+
+
+    <div id = "item-details"></div>
+
+
+    <button class="checkoutButton" onclick="window.location.href='{% url 'order_details' order_id=order.order_id table_id=table_id %}'" id="checkoutButton" type="button">
+      <span>Go to checkout</span>
+      <div class="total-price">{{ order.total_amount }} €</div>
+  </button>
+
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="menu-contacts-child" id="information">
+<div class="modal">
+  <div class="container">
+    <h3 class="name3">Oyster + Margarita</h3>
+    <div class="description5">Seafood and Caviar bar</div>
+
+
+    <div class="row">
+      <div class="address">Address</div>
+      <div class="r-da-palmeira">R. da Palmeira 28 C, 1200-313 Lisboa</div>
+      <div class="phone">Phone</div>
+      <div class="r-da-palmeira">925 514 812</div>
+      <p><div class="website">Working hours</div>
+      <div class="oystermargaritacom">Monday - Sunday: 12 pm - 00 am</div>
+      <div class="oystermargaritacom">Kitchen closes: 11 pm</div></p>
+    </div>
+    <button class="default-button3" onclick="window.open('https://www.instagram.com/oysterandmargarita', '_blank')">
+      <img
+        class="iconinst"
+        loading="lazy"
+        alt=""
+        src="{% static 'instagram_icon.png' %}"
+      />
+
+  </div>
+  <button class="default-button6" type="button" onclick="closeInformation()">
+    <img
+      class="iconclose"
+      loading="lazy"
+      alt=""
+      src="{% static 'close.png' %}"
+    />
+
+
+  </div>
+</div>
+</div>
+
+    </form>
+
+    <script type="text/javascript">
+
+      window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
+
+      const tableId = document.getElementById("tableId").value;
+
+    
+    function closeVariantDetails() {
+      $('#item-details').fadeOut(300, function() {
+        
+          const categoryToShow = activeCategory || localStorage.getItem('activeCategory');
+          
+          if (categoryToShow) {
+              showContent(categoryToShow);
+              console.log('Restored category:', categoryToShow);
+          } else {
+              
+              const defaultButton = document.querySelector('.label3[data-default="true"]');
+              if (defaultButton) {
+                  const category = defaultButton.onclick.toString()
+                      .match(/showContent\('([^']+)'/)[1];
+                  showContent(category);
+              }
+          }
+      });
+  }
+  
+  
+  function initializeMenu() {
+      
+      const savedCategory = localStorage.getItem('activeCategory');
+      
+      if (savedCategory) {
+          
+          showContent(savedCategory);
+      } else {
+
+          const defaultButton = document.querySelector('.label3[data-default="true"]');
+          if (defaultButton) {
+              const category = defaultButton.onclick.toString()
+                  .match(/showContent\('([^']+)'/)[1];
+              showContent(category);
+          }
+      }
+  }
+  
+
+  document.addEventListener('DOMContentLoaded', initializeMenu);
+  
+
+  function clearActiveCategory() {
+      localStorage.removeItem('activeCategory');
+      activeCategory = null;
+  }
+
+      function scrollToCategory(categoryId) {
+   
+        const element = document.getElementById(categoryId);
+        
+        if (element) {
+          
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset;
+            
+       
+            const headerOffset = 100;
+            
+   
+            window.scrollTo({
+                top: offsetPosition - headerOffset,
+                behavior: 'smooth'
+            });
+            
+
+            document.querySelectorAll('.category-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`.category-menu a[href="#${categoryId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        } else {
+            console.warn(`Element with id "${categoryId}" not found`);
+        }
+    }
+    
+
+    document.addEventListener('scroll', function() {
+        const subcategories = document.querySelectorAll('[id^="subcategory-"]');
+        const headerOffset = 100; // Та же величина, что и выше
+        
+        subcategories.forEach(subcategory => {
+            const rect = subcategory.getBoundingClientRect();
+            if (rect.top <= headerOffset && rect.bottom > headerOffset) {
+                const categoryId = subcategory.id;
+                document.querySelectorAll('.category-menu a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${categoryId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }); 
+
+        let cart = [];
+
+        function addToCart(name, itemPrice, variant) {
+          // Если у вас есть базовая цена и цена варианта, обновите их
+          const price = parseFloat(itemPrice); // Теперь это цена, которая уже обновлена в updatePrice
+          console.log(`Adding item to cart: name=${name}, price=${price}, variant=${variant}`);
+      
+          const existingItem = cart.find(item => 
+              item.name === name && (variant ? item.variant === variant : !item.variant)
+          );
+      
+          if (existingItem) {
+              existingItem.quantity += 1;
+              existingItem.total_price = price * existingItem.quantity; 
+              console.log(`Updated existing item: ${JSON.stringify(existingItem)}`);
+          } else {
+              cart.push({ name, price, total_price: price, quantity: 1, variant });
+              console.log(`Added new item to cart: ${JSON.stringify(cart[cart.length - 1])}`);
+          }
+
+          const url = `/table/${tableId}/add_to_cart/`;
+      
+          $.ajax({
+           
+              url: url,  
+              method: 'POST',
+              data: {
+                  'name': name,
+                  'price': price,
+                  'quantity': 1,
+                  'variant': variant || null,
+                  'csrfmiddlewaretoken': '{{ csrf_token }}'
+              },
+              success: function (response) {
+                  $(".total-price").text(response.total_amount.toFixed(2) + " €");
+              },
+              error: function () {
+                  alert("Произошла ошибка при добавлении товара.");
+              }
+          });
+      }
+      
+
+        const csrfToken = "{{ csrf_token }}";
+  
+        function updatePrice() {
+          const selectedVariant = document.querySelector(`input[name="variant"]:checked`);
+          const basePrice = parseFloat(document.getElementById('base-price').textContent);
+          
+          if (selectedVariant) {
+              const variantPrice = parseFloat(selectedVariant.nextElementSibling.textContent); // Получаем цену варианта
+              const totalPrice = variantPrice; // Устанавливаем цену только варианта
+              document.getElementById('total-price').textContent = totalPrice.toFixed(2); // Обновляем отображаемую цену
+          } else {
+              document.getElementById('total-price').textContent = basePrice.toFixed(2); // Если вариант не выбран, показываем базовую цену
+          }
+      }
+      
+      function getSelectedVariant() {
+          const selectedVariant = document.querySelector(`input[name="variant"]:checked`);
+          return selectedVariant ? selectedVariant.value : null;
+      }
+      
+      function getCurrentPrice() {
+          return parseFloat(document.getElementById('total-price').textContent); // Возвращаем текущую цену
+      }
+      
+        
+  
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        $(document).ready(function() {
+          const csrfToken = $('meta[name="csrf-token"]').attr('content');
+      
+          $('#waiter').click(function() {
+              const url = `/table/${tableId}/notification/`;
+              $.ajax({
+                  url: url,  // URL вашего представления
+                  type: 'POST',
+                  contentType: 'application/json',
+                  headers: {
+                      'X-CSRFToken': csrfToken // Добавляем токен CSRF
+                  },
+                  data: JSON.stringify({
+                      // Отправьте необходимые данные
+                      table_id: 1, 
+                  }),
+                  success: function(response) {
+                      alert("We are coming!");
+                      $('#responseMessage').text(response.message);  
+                  },
+                  error: function(xhr) {
+                      alert("An error has occurred.");
+                      $('#responseMessage').text(xhr.responseJSON.message); 
+                  }
+              });
+          });
+      });
+
+
+        let lastActiveCategory = null;
+
+function loadItemDetails(itemName) {
+
+  const url = `/table/${tableId}/item-details/`;
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: {
+            'item_name': itemName
+        },
+        success: function(response) {
+            $('#item-details').html(response);
+   
+            $('#item-details').css({
+                'display': 'block',
+                'opacity': '1',
+                'visibility': 'visible'
+            });
+            console.log('Item details loaded:', itemName);
+            
+      
+            document.querySelectorAll('.menu-item').forEach(function(section) {
+                if (section.style.display !== 'none') {
+                    lastActiveCategory = section.id; 
+                }
+                section.style.display = 'none';
+            });
+            
+            console.log('Last active category:', lastActiveCategory);
+            console.log('Element display:', $('#item-details').css('display'));
+            console.log('Element visibility:', $('#item-details').css('visibility'));
+        },
+        error: function(xhr, status, error) {
+            console.error('Error loading item details:', error);
+        }
+    });
+}
+
+
+
+function attachEventListeners() {
+    document.querySelectorAll('.catalogue .tab button').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            const category = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            showContent(category, event);
+        });
+    });
+}
+
+
+let activeCategory = null;
+
+// Функция для показа контента категории
+function showContent(category, event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+    // Сохраняем активную категорию
+    activeCategory = category;
+    
+    // Сохраняем в localStorage
+    localStorage.setItem('activeCategory', category);
+
+    // Скрыть все секции меню
+    document.querySelectorAll('.menu-item').forEach(function(section) {
+        section.style.display = 'none';
+    });
+
+    // Показать выбранную секцию
+    const selectedSection = document.getElementById(category);
+    if (selectedSection) {
+        selectedSection.style.display = 'block';
+    }
+
+    // Обновление активного состояния кнопок
+    document.querySelectorAll('.label3').forEach(function(button) {
+        button.classList.remove('active');
+    });
+
+    // Находим и активируем нужную кнопку через onclick атрибут
+    const activeButton = document.querySelector(`.label3[onclick*="${category}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+
+    console.log('Active category set to:', category);
+
+    console.log('Button clicked:', {
+      category: category,
+      activeCategory: activeCategory,
+      storedCategory: localStorage.getItem('activeCategory')
+  });
+}
+
+function loadInformation() {
+  console.log("Функция loadInformation() вызвана");
+
+  const selectedSection = document.getElementById("information");
+
+  if (selectedSection) {
+    selectedSection.style.display = 'block';
+}
+
+  document.querySelectorAll('.menu-item').forEach(function(section) {
+    if (section.style.display !== 'none') {
+        lastActiveCategory = section.id; 
+    }
+    section.style.display = 'none';
+});
+
+}
+
+function closeInformation() {
+  $('#information').fadeOut(300, function() {
+      
+      const categoryToShow = activeCategory || localStorage.getItem('activeCategory');
+      
+      if (categoryToShow) {
+          showContent(categoryToShow);
+          console.log('Restored category:', categoryToShow);
+      } else {
+          
+          const defaultButton = document.querySelector('.label3[data-default="true"]');
+          if (defaultButton) {
+              const category = defaultButton.onclick.toString()
+                  .match(/showContent\('([^']+)'/)[1];
+              showContent(category);
+          }
+      }
+  });
+}
+        </script>
+      </body>
+    </html>

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'global.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <style>
+
+      .thank-you-message {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        font-size: 25px;
+        font-weight: bold;
+        text-transform: uppercase;
+        color: #333;
+    }
+    
+
+        
+    </style>
+  </head>
+  <body>
+    {% csrf_token %}
+    <form class="menu">
+        <section class="header">
+            <div class="tab">
+              <div class="tab-content">
+                {% for category in category_list reversed %}
+                    <button type="button" 
+                            class="label3" 
+                            onclick="showContent('{{ category.name|lower|slugify }}', event)"
+                            {% if forloop.first %}data-default="true"{% endif %}>
+                        {{ category.name_pt }}
+                    </button>
+                    <div class="underline"></div>
+                {% endfor %}
+          </div>
+        </div>
+          <div class="top">
+            <button class="default-button1" type="button" id="waiter">
+              <img class="iconwaiter" alt="" src="{% static 'pngegg.png' %}" />
+  
+              <div class="label8">Chamar o garçom</div>
+            </button>
+            <button class="default-button2" type="button" id="information-btn" onclick="loadInformation()">
+              <img
+                class="iconplaceholder"
+                alt=""
+                src="./public/iconplaceholder.svg"
+              />
+  
+              <div class="label9">Informação</div>
+            </button>
+  
+            <h3 class="name2">Oyster + Margarita</h3>
+            <div class="description">Bar de Frutos do Mar e Caviar</div>
+            <img
+              class="avatar-icon"
+              loading="lazy"
+              alt=""
+              src="{% static 'IMG_7123.jpg' %}"
+            />
+          </div>
+        </section>
+
+            <div class="thank-you-message">
+            <span>Obrigada!</span>
+        </div>
+  
+
+      <input type="hidden" id="tableId" value="{{ table_id }}">
+      <input type="hidden" id="lang" value="{{ lang }}">
+
+
+    <div id = "item-details"></div>
+
+
+<button class="checkoutButton" onclick="window.location.href='{% url 'index'  table_id=table_id lang=lang %}'" id="checkoutButton" type="button">
+  <span>Voltar ao menu</span>
+</button>
+
+
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="menu-contacts-child" id="information">
+<div class="modal">
+  <div class="container">
+    <h3 class="name3">Oyster + Margarita</h3>
+    <div class="description5">Seafood and Caviar bar</div>
+
+
+    <div class="row">
+      <div class="address">Address</div>
+      <div class="r-da-palmeira">R. da Palmeira 28 C, 1200-313 Lisboa</div>
+      <div class="phone">Phone</div>
+      <div class="r-da-palmeira">925 514 812</div>
+      <p><div class="website">Working hours</div>
+      <div class="oystermargaritacom">Monday - Sunday: 12 pm - 00 am</div>
+      <div class="oystermargaritacom">Kitchen closes: 11 pm</div></p>
+    </div>
+    <button class="default-button3" onclick="window.open('https://www.instagram.com/oysterandmargarita', '_blank')">
+      <img
+        class="iconinst"
+        loading="lazy"
+        alt=""
+        src="{% static 'instagram_icon.png' %}"
+      />
+
+  </div>
+  <button class="default-button6" type="button" onclick="closeInformation()">
+    <img
+      class="iconclose"
+      loading="lazy"
+      alt=""
+      src="{% static 'close.png' %}"
+    />
+
+
+  </div>
+</div>
+</div>
+
+    </form>
+
+       <script type="text/javascript">
+
+
+      window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
+
+      const tableId = document.getElementById("tableId").value;
+      const lng = document.getElementById("lang").value;
+
+
+        $(document).ready(function() {
+          const csrfToken = $('meta[name="csrf-token"]').attr('content');
+      
+          $('#waiter').click(function() {
+              const url = `notification_thanks/`;
+              $.ajax({
+                  url: url,  
+                  type: 'POST',
+                  contentType: 'application/json',
+                  headers: {
+                      'X-CSRFToken': csrfToken 
+                  },
+                  data: JSON.stringify({
+                      
+                      table_id: 1, 
+                  }),
+                  success: function(response) {
+                      alert("We are coming!");
+                      $('#responseMessage').text(response.message);  
+                  },
+                  error: function(xhr) {
+                      alert("An error has occurred.");
+                      $('#responseMessage').text(xhr.responseJSON.message); 
+                  }
+              });
+          });
+      });
+
+
+function loadInformation() {
+  console.log("Функция loadInformation() вызвана");
+
+  const selectedSection = document.getElementById("information");
+
+  if (selectedSection) {
+    selectedSection.style.display = 'block';
+}
+
+  document.querySelectorAll('.menu-item').forEach(function(section) {
+    if (section.style.display !== 'none') {
+        lastActiveCategory = section.id; 
+    }
+    section.style.display = 'none';
+});
+
+}
+
+function closeInformation() {
+  $('#information').fadeOut(300, function() {
+      
+  });
+}
+        </script>
+      </body>
+    </html>

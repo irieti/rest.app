@@ -1,0 +1,890 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'global.css' %}" />
+    <link rel="stylesheet" href="{% static 'styles.css' %}" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    {% load app_tags %}
+
+  </head>
+  <body>
+    {% csrf_token %}
+    <form class="menu">
+      <div class="label">
+      </div>
+      <img class="cover-icon" alt="" src="{% static 'IMG_6941.jpg' %}" />
+        <a class="label2"></a>
+      
+      </form>
+
+      <form action="{% url 'index' table_id=table_id lang="pt" %}" method="post" style="display: inline;">
+        {% csrf_token %}
+        <button type="submit" name="language" value="submit" class="default-button1"
+            <img class="iconuk" alt="" src="/static/iconuk.svg" />
+            <div class="label8">
+                    Portuguese
+            </div>
+        </button>
+      </form>
+      
+
+    </div>
+        <div class="tab" id="tab">
+          <div class="tab-content" id="tab-content">
+            {% for category in category_list reversed %}
+                <button type="button" 
+                        class="label3" 
+                        onclick="showContent('{{ category.name|lower|slugify }}', event)"
+                        {% if forloop.first %}data-default="true"{% endif %}>
+                    {{ category.name }}
+                </button>
+                <div class="underline"></div>
+            {% endfor %}
+          </div>
+        </div>
+        <section class="header">
+        <div class="top">
+          <button class="default-button1" type="button" id="waiter">
+            <img class="iconwaiter" alt="" src="{% static 'pngegg.png' %}" />
+
+            <div class="label8">Call waiter</div>
+          </button>
+          <button class="default-button2" type="button" id="information-btn" onclick="loadInformation()">
+            <img
+              class="iconplaceholder"
+              alt=""
+              src="./public/iconplaceholder.svg"
+            />
+
+            <div class="label9">Information</div>
+          </button>
+
+          <h3 class="name2">Oyster + Margarita</h3>
+          <div class="description">Seafood and Caviar bar</div>
+          <img
+            class="avatar-icon"
+            loading="lazy"
+            alt=""
+            src="{% static 'IMG_7123.jpg' %}"
+          />
+        </div>
+      </section>
+
+
+        {% for category in category_list %}
+        <section class="menu-item" 
+                id="{{ category.name|lower|slugify }}" 
+                {% if not forloop.first %}style="display:none;"{% endif %}>
+            {% if category.subcategories.all %}
+            <nav class="category-menu">
+              <ul>
+                  {% for subcategory in category.sorted_subcategories %}
+                  <li>
+                      <a href="#subcategory-{{ subcategory.name|slugify }}" 
+                         onclick="event.preventDefault(); scrollToCategory('subcategory-{{ subcategory.name|slugify }}')">
+                          {{ subcategory.name }}
+                      </a>
+                  </li>
+                  {% endfor %}
+              </ul>
+          </nav>
+          
+          {% for subcategory in category.sorted_subcategories %}
+          <div id="subcategory-{{ subcategory.name|slugify }}" class="subcategory-section">
+            <div class="label10">{{ subcategory.name }}</div>
+              <ul>
+                  {% for item in subcategory.items.all %}
+                  <li>
+                    <div class="element-padding"><div class="label10">{{ item.name }}</div></div>
+                      <div class="description1">{{ item.description }}
+                        <p>{% if item.volume %} {{ item.volume }} {% endif %}</p>
+                        <p>{% if item.ingredients %} {{ item.ingredients}} {% endif %}</p>
+                        <p>{% if item.allergens %} {{item.allergens}} {% endif %}</p>
+                      </div>
+                                <div class="price" id="price-{{ item.id }}">
+                                    {% if item.variants.all %}
+                                        from {{ item.price }} €
+                                    {% else %}
+                                        {{ item.price }} €
+                                    {% endif %}
+                                </div>
+                                <div class="bottom">
+                                    {% if item.image %}
+                                      <img class="right-icon" loading="lazy" alt="" src="{{ item.image.url }}" />
+                                    {% else %}
+                                        <img class="right-icon" loading="lazy" alt="Placeholder" src="{% static 'path/to/placeholder.jpg' %}" />
+                                    {% endif %}
+                                    <div class="item-controls">
+                                        {% if item.variants.all %}
+                                        <button type="button" class="add-button" id="add-button-{{ item.id }}" data-item-id="{{ item.id }}" onclick="loadItemDetails('{{ item.id }}')"> Add</button>
+                                        {% else %}
+                                        {% with order_item=order_items|first_matching_order_item:item %}
+                                            {% if order_item %}
+                                                <div class="quantity-buttons" id="quantity-buttons-{{ item.id }}">
+                                                    <button class="quantity-btn decrease" data-item-id="{{ item.id }}" data-item-price="{{ item.price }}" onclick="itemQuantity({{item.id}}, {{item.price}}, 'decrease')">-</button>
+                                                    <span class="quantity" id="quantity-{{ item.id }}" data-item-id="{{ item.id }}" data-order-id="{{ order.order_id }}">
+                                                        {{ order_item.quantity }}
+                                                    </span>
+                                                    <button class="quantity-btn increase" data-item-id="{{ item.id }}" data-item-price="{{ item.price }}" onclick="itemQuantity({{item.id}}, {{item.price}}, 'increase')">+</button>
+                                                </div>
+                                            {% else %}
+                                                <button type="button" class="add-button" id="add-button-{{ item.id }}" data-item-id="{{ item.id }}" onclick="addToCart({{ item.id }}, {{ item.price }});"> Add</button>
+                                            {% endif %}
+                                        {% endwith %}
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </li>
+                        {% endfor %}
+                    </ul>
+                {% endfor %}
+            {% else %}
+                <ul>
+                    {% for item in category.items.all %}
+                        <li>
+                          <div class="element-padding"><div class="label10">{{ item.name }}</div></div>
+                            <div class="description1">{{ item.description }}</div>
+                            <div class="price" id="price-{{ item.id }}">
+                                {% if item.variants.all %}
+                                    from {{ item.price }} €
+                                {% else %}
+                                    {{ item.price }} €
+                                {% endif %}
+                            </div>
+                            <div class="bottom">
+                              {% if item.image %}
+                                <img class="right-icon" loading="lazy" alt="" src="{{ item.image.url }}" />
+                              {% else %}
+                                <img class="right-icon" loading="lazy" alt="Placeholder" src="{% static 'path/to/placeholder.jpg' %}" />
+                              {% endif %}
+                              <div class="item-controls">
+                                {% if item.variants.all %}
+                                <button type="button" class="add-button" id="add-button-{{ item.id }}" data-item-id="{{ item.id }}" onclick="loadItemDetails('{{ item.id }}')"> Add</button>
+                                {% else %}
+                                {% with order_item=order_items|first_matching_order_item:item %}
+                                    {% if order_item %}
+                                        <div class="quantity-buttons" id="quantity-buttons-{{ item.id }}">
+                                            <button class="quantity-btn decrease" data-item-id="{{ item.id }}" data-item-price="{{ item.price }}" onclick="itemQuantity({{item.id}}, {{item.price}}, 'decrease')">-</button>
+                                            <span class="quantity" id="quantity-{{ item.id }}" data-item-id="{{ item.id }}" data-order-id="{{ order.order_id }}">
+                                                {{ order_item.quantity }}
+                                            </span>
+                                            <button class="quantity-btn increase" data-item-id="{{ item.id }}" data-item-price="{{ item.price }}" onclick="itemQuantity({{item.id}}, {{item.price}}, 'increase')">+</button>
+                                        </div>
+                                    {% else %}
+                                        <button type="button" class="add-button" id="add-button-{{ item.id }}" data-item-id="{{ item.id }}" onclick="addToCart({{ item.id }}, {{ item.price }});"> Add</button>
+                                    {% endif %}
+                                {% endwith %}
+                                {% endif %}
+                            </div>
+                            </div>
+                        </li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </section>
+        {% endfor %}
+
+      <input type="hidden" id="tableId" value="{{ table_id }}">
+      <input type="hidden" id="lang" value="{{ lang }}">
+      <input type="hidden" id="orderId" value="{{ order.order_id }}">
+
+
+    <div id = "item-details"></div>
+
+
+<button class="checkoutButton" onclick="window.location.href='{% url 'order_details' order_id=order.order_id table_id=table_id lang=lang %}'" id="checkoutButton" type="button">
+  <span>Go to checkout</span>
+  <div class="total-price">{{ order.total_amount }} €</div>
+</button>
+
+
+    {% if messages %}
+<ul class="messages">
+    {% for message in messages %}
+    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+    {% endfor %}
+</ul>
+{% endif %}
+
+<div class="menu-contacts-child" id="information">
+<div class="modal">
+  <div class="container">
+    <h3 class="name3">Oyster + Margarita</h3>
+    <div class="description5">Seafood and Caviar bar</div>
+
+
+    <div class="row">
+      <div class="address">Address</div>
+      <div class="r-da-palmeira">R. da Palmeira 28 C, 1200-313 Lisboa</div>
+      <div class="phone">Phone</div>
+      <div class="r-da-palmeira">925 514 812</div>
+      <p><div class="website">Working hours</div>
+      <div class="oystermargaritacom">Monday - Sunday: 12 pm - 00 am</div>
+      <div class="oystermargaritacom">Kitchen closes: 11 pm</div></p>
+    </div>
+    <button class="default-button3" onclick="window.open('https://www.instagram.com/oysterandmargarita', '_blank')">
+      <img
+        class="iconinst"
+        loading="lazy"
+        alt=""
+        src="{% static 'instagram_icon.png' %}"
+      />
+
+  </div>
+  <button class="default-button6" type="button" onclick="closeInformation()">
+    <img
+      class="iconclose"
+      loading="lazy"
+      alt=""
+      src="{% static 'close.png' %}"
+    />
+
+
+  </div>
+</div>
+</div>
+
+    </form>
+
+    <script type="text/javascript">
+
+
+      window.addEventListener("pageshow", function (event) {
+        if (event.persisted) {
+            window.location.reload();
+        }
+    });
+
+
+      const tableId = document.getElementById("tableId").value;
+      const lng = document.getElementById("lang").value;
+
+    function closeVariantDetails() {
+      $('#item-details').fadeOut(300, function() {
+        
+          const categoryToShow = activeCategory || localStorage.getItem('activeCategory');
+          
+          if (categoryToShow) {
+              showContent(categoryToShow);
+              console.log('Restored category:', categoryToShow);
+          } else {
+              
+              const defaultButton = document.querySelector('.label3[data-default="true"]');
+              if (defaultButton) {
+                  const category = defaultButton.onclick.toString()
+                      .match(/showContent\('([^']+)'/)[1];
+                  showContent(category);
+              }
+          }
+      });
+  }
+  
+  
+  function initializeMenu() {
+      
+      const savedCategory = localStorage.getItem('activeCategory');
+      
+      if (savedCategory) {
+          
+          showContent(savedCategory);
+      } else {
+
+          const defaultButton = document.querySelector('.label3[data-default="true"]');
+          if (defaultButton) {
+              const category = defaultButton.onclick.toString()
+                  .match(/showContent\('([^']+)'/)[1];
+              showContent(category);
+          }
+      }
+  }
+  
+
+  document.addEventListener('DOMContentLoaded', initializeMenu);
+  
+
+  function clearActiveCategory() {
+      localStorage.removeItem('activeCategory');
+      activeCategory = null;
+  }
+
+      function scrollToCategory(categoryId) {
+   
+        const element = document.getElementById(categoryId);
+        
+        if (element) {
+          
+            const elementPosition = element.getBoundingClientRect().top;
+            const offsetPosition = elementPosition + window.pageYOffset;
+            
+       
+            const headerOffset = 100;
+            
+   
+            window.scrollTo({
+                top: offsetPosition - headerOffset,
+                behavior: 'smooth'
+            });
+            
+
+            document.querySelectorAll('.category-menu a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const activeLink = document.querySelector(`.category-menu a[href="#${categoryId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
+        } else {
+            console.warn(`Element with id "${categoryId}" not found`);
+        }
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+        const tab = document.querySelector(".tab");
+        const stickyPoint = 391; 
+        const basePosition = tab.offsetTop; 
+    
+        window.addEventListener("scroll", () => {
+            const scrollY = window.scrollY;
+    
+            
+            if (scrollY < stickyPoint) {
+                tab.style.position = "absolute";
+                tab.style.top = `${stickyPoint}px`;
+            }
+            
+            else if (scrollY >= stickyPoint) {
+                tab.style.position = "fixed";
+                tab.style.top = "0"; 
+            }
+        });
+    });
+    
+
+
+
+
+    document.addEventListener('scroll', function() {
+        const subcategories = document.querySelectorAll('[id^="subcategory-"]');
+        const headerOffset = 100; 
+        
+        subcategories.forEach(subcategory => {
+            const rect = subcategory.getBoundingClientRect();
+            if (rect.top <= headerOffset && rect.bottom > headerOffset) {
+                const categoryId = subcategory.id;
+                document.querySelectorAll('.category-menu a').forEach(link => {
+                    link.classList.remove('active');
+                    if (link.getAttribute('href') === `#${categoryId}`) {
+                        link.classList.add('active');
+                    }
+                });
+            }
+        });
+    }); 
+
+        let cart = [];
+
+        function addToCart(itemId, itemPrice, variant=null) {
+            const price = parseFloat(itemPrice);
+            const url = `add_to_cart/`;
+            console.log('Data:', itemId, itemPrice)
+        
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: {
+                    'item_id': itemId,
+                    'price': price,
+                    'quantity': 1,
+                    'variant': variant || null,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    console.log('Response:', response);
+                    const totalAmount = parseFloat(response.total_amount);
+                    const itemQuantity = response.item_quantity;
+        
+                   
+                    if (!isNaN(totalAmount)) {
+                        $(".total-price").text(totalAmount.toFixed(2) + " €");
+                    } else {
+                        console.error("Error: total_amount is not a number.", response.total_amount);
+                    }
+        
+                    const addButton = document.getElementById('add-button-' + itemId);
+                    const quantityButtons = document.getElementById('quantity-buttons-' + itemId);
+        
+                    if (addButton) {
+                        addButton.style.display = 'none';
+                    } else {
+                        console.error('Add button not found for ID:', 'add-button-' + itemId);
+                    }
+        
+                    if (quantityButtons) {
+                        quantityButtons.style.display = 'inline-block';
+                        const quantitySpan = document.getElementById('quantity-' + itemId);
+                        if (quantitySpan) {
+                            quantitySpan.textContent = itemQuantity;
+                        } else {
+                            console.error('Quantity span not found for ID:', 'quantity-' + itemId);
+                        }
+                    } else {
+                        const itemControls = addButton.closest('.item-controls'); 
+                        if (itemControls) {
+                            const quantityButtonsHtml = `
+                                <div class="quantity-buttons" id="quantity-buttons-${itemId}" style="display: inline-block;">
+                                    <button class="quantity-btn decrease" data-item-id="${itemId}" data-item-price="${itemPrice}" onclick="itemQuantity(${itemId}, ${itemPrice}, 'decrease')">-</button>
+                                    <span class="quantity" id="quantity-${itemId}" data-item-id="${itemId}">
+                                        ${itemQuantity}
+                                    </span>
+                                    <button class="quantity-btn increase" data-item-id="${itemId}" data-item-price="${itemPrice}" onclick="itemQuantity(${itemId}, ${itemPrice}, 'increase')">+</button>
+                                </div>
+                            `;
+                            itemControls.insertAdjacentHTML('beforeend', quantityButtonsHtml);
+                        } else {
+                            console.error('Item controls container not found for ID:', 'add-button-' + itemId);
+                        }
+                    }
+                },
+                error: function () {
+                    alert("Error with adding an item, please call a waiter.");
+                }
+            });
+        }
+        
+        
+        
+        
+
+      function addItemToCart(itemPrice, itemId) {
+        const price = parseFloat(itemPrice);
+        const selectedVariant = document.querySelector('input[name="variant"]:checked');
+        
+        if (!selectedVariant) {
+          alert("Please select a variant before adding the item to the cart.");
+          return null;
+        }
+        
+        variant = selectedVariant.value;
+        console.log(variant, itemId);
+          console.log('Generated ID:', 'variant-quantity-buttons-' + itemId + '-' + variant);
+        
+            const url = `add_to_cart/`;
+        
+            $.ajax({
+                url: url,
+                method: 'POST',
+                data: {
+                    'item_id': itemId,
+                    'price': price,
+                    'quantity': 1,
+                    'variant': variant,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function (response) {
+                    const totalAmount = parseFloat(response.total_amount);
+                    const itemQuantity = response.item_quantity;
+        
+                
+                    if (!isNaN(totalAmount)) {
+                        $(".total-price").text(totalAmount.toFixed(2) + " €");
+                    } else {
+                        console.error("Error: total_amount is not an int.", response.total_amount);
+                    }
+
+                    document.getElementById('variant-quantity-' + itemId).textContent = itemQuantity;
+                    document.getElementById('variant-add-button-' + itemId).style.display = 'none';
+                    document.getElementById('variant-quantity-buttons-' + itemId).style.display = 'inline-block';
+
+                }
+            });
+        }
+
+
+      
+      
+
+        const csrfToken = "{{ csrf_token }}";
+  
+        function updatePrice(itemId) {
+            const csrfToken = $('meta[name="csrf-token"]').attr('content');
+          const selectedVariant = document.querySelector(`input[name="variant"]:checked`);
+          const basePrice = parseFloat(document.getElementById('base-price').textContent);
+          variant = selectedVariant.value;
+          const orderId = document.getElementById("orderId").value;
+        
+
+          
+          if (selectedVariant) {
+              const variantPrice = parseFloat(selectedVariant.nextElementSibling.textContent); 
+              const totalPrice = variantPrice;
+              document.getElementById('total-price').textContent = totalPrice.toFixed(2);
+
+          } else {
+              document.getElementById('total-price').textContent = basePrice.toFixed(2);
+          }
+
+          const url = `order/${orderId}/change_variant/`;
+
+          $.ajax({
+              url: url,
+              type: 'POST',
+              data: JSON.stringify({
+                  item_id: itemId,
+                  variant: variant,
+              }),
+              contentType: 'application/json',
+              headers: {
+                  'X-CSRFToken': csrfToken
+              },
+              success: function(response) {
+                  console.log('Success response:', response);
+                  const quantity = response.quantity;
+                  if (response.status === 'success') {
+                      $(`#variant-quantity-${itemId}`).text(quantity);
+    
+                      document.getElementById('variant-quantity-buttons-' + itemId).style.display = 'inline-block';
+                      document.getElementById('variant-add-button-' + itemId).style.display = 'none';
+                  }
+              },
+              error: function(xhr, status, error) {
+                  console.log('Error details:', {
+                      status: xhr.status,
+                      statusText: xhr.statusText,
+                      responseText: xhr.responseText
+                  });
+                  document.getElementById('variant-quantity-buttons-' + itemId).style.display = 'none';
+                  document.getElementById('variant-add-button-' + itemId).style.display = 'inline-block';
+                  console.error('Ajax error:', error);
+              }
+          });
+        }
+      
+      
+      
+      function getCurrentPrice() {
+          return parseFloat(document.getElementById('total-price').textContent); 
+      }
+      
+        
+  
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+
+        $(document).ready(function() {
+          const csrfToken = $('meta[name="csrf-token"]').attr('content');
+      
+          $('#waiter').click(function() {
+              const url = `notification/`;
+              $.ajax({
+                  url: url,  
+                  type: 'POST',
+                  contentType: 'application/json',
+                  headers: {
+                      'X-CSRFToken': csrfToken 
+                  },
+                  data: JSON.stringify({
+                      
+                      table_id: 1, 
+                  }),
+                  success: function(response) {
+                      alert("We are coming!");
+                      $('#responseMessage').text(response.message);  
+                  },
+                  error: function(xhr) {
+                      alert("An error has occurred.");
+                      $('#responseMessage').text(xhr.responseJSON.message); 
+                  }
+              });
+          });
+      });
+
+
+        let lastActiveCategory = null;
+
+function loadItemDetails(itemId) {
+    const url = `item-details/`;
+    const tab = document.querySelector(".tab");
+
+    $.ajax({
+        url: url,
+        type: 'GET',
+        data: {
+            'item_id': itemId
+        },
+        success: function(response) {
+            $('#item-details').html(response);
+            $('#item-details').css({
+                'display': 'block',
+                'opacity': '1',
+                'visibility': 'visible'
+            });
+
+            if (tab) {
+                tab.classList.remove("sticky");
+            }
+
+            document.querySelectorAll('.menu-item').forEach(function(section) {
+                if (section.style.display !== 'none') {
+                    lastActiveCategory = section.id;
+                }
+                section.style.display = 'none';
+            });
+        },
+        error: function(xhr, status, error) {
+            console.error('Error loading item details:', error);
+        }
+    });
+}
+
+
+
+
+function attachEventListeners() {
+    document.querySelectorAll('.catalogue .tab button').forEach(function(button) {
+        button.addEventListener('click', function(event) {
+            const category = this.getAttribute('onclick').match(/'([^']+)'/)[1];
+            showContent(category, event);
+        });
+    });
+}
+
+
+let activeCategory = null;
+
+
+function showContent(category, event) {
+    if (event) {
+        event.preventDefault();
+    }
+
+ 
+    activeCategory = category;
+    
+
+    localStorage.setItem('activeCategory', category);
+
+
+    document.querySelectorAll('.menu-item').forEach(function(section) {
+        section.style.display = 'none';
+    });
+
+
+    const selectedSection = document.getElementById(category);
+    if (selectedSection) {
+        selectedSection.style.display = 'block';
+    }
+
+
+    document.querySelectorAll('.label3').forEach(function(button) {
+        button.classList.remove('active');
+    });
+
+   
+    const activeButton = document.querySelector(`.label3[onclick*="${category}"]`);
+    if (activeButton) {
+        activeButton.classList.add('active');
+    }
+
+    console.log('Active category set to:', category);
+
+    console.log('Button clicked:', {
+      category: category,
+      activeCategory: activeCategory,
+      storedCategory: localStorage.getItem('activeCategory')
+  });
+}
+
+function loadInformation() {
+
+  const selectedSection = document.getElementById("information");
+
+  if (selectedSection) {
+    selectedSection.style.display = 'block';
+}
+
+  document.querySelectorAll('.menu-item').forEach(function(section) {
+    if (section.style.display !== 'none') {
+        lastActiveCategory = section.id; 
+    }
+    section.style.display = 'none';
+});
+
+}
+
+function closeInformation() {
+  $('#information').fadeOut(1, function() {
+      
+      const categoryToShow = activeCategory || localStorage.getItem('activeCategory');
+      
+      if (categoryToShow) {
+          showContent(categoryToShow);
+          console.log('Restored category:', categoryToShow);
+      } else {
+          
+          const defaultButton = document.querySelector('.label3[data-default="true"]');
+          if (defaultButton) {
+              const category = defaultButton.onclick.toString()
+                  .match(/showContent\('([^']+)'/)[1];
+              showContent(category);
+              window.location.reload();
+          }
+      }
+  });
+}
+
+
+function updateQuantity(itemId, quantity, variant=null) {
+  const csrftoken = getCookie('csrftoken');
+  const orderId = document.getElementById("orderId").value;
+
+  console.log('Updating quantity:', {
+      itemId: itemId,
+      quantity: quantity,
+      variant: variant
+  });
+
+  const url = `order/${orderId}/item_quantity/`;
+
+  $.ajax({
+      url: url,
+      type: 'POST',
+      data: JSON.stringify({
+          item_id: itemId,
+          quantity: quantity,
+          variant: variant||null
+      }),
+      contentType: 'application/json',
+      headers: {
+          'X-CSRFToken': csrftoken
+      },
+      success: function(response) {
+          console.log('Success response:', response);
+          if (response.status === 'success') {
+              $(`#quantity-${itemId}`).text(quantity);
+              $(`#variant-quantity-${itemId}`).text(quantity);
+
+              const totalAmount = parseFloat(response.total_amount);
+              $('.total-price').text(totalAmount.toFixed(2) + " €");
+          }
+      },
+      error: function(xhr, status, error) {
+          console.log('Error details:', {
+              status: xhr.status,
+              statusText: xhr.statusText,
+              responseText: xhr.responseText
+          });
+          console.error('Ajax error:', error);
+      }
+  });
+}
+
+
+function VariantQuantity(itemId, action) {
+    const selectedVariant = document.querySelector('input[name="variant"]:checked');
+    variant = selectedVariant.value;
+
+    const quantitySpan = $('#variant-quantity-' + itemId);
+    let quantity = parseInt(quantitySpan.text(), 10); 
+
+    if (isNaN(quantity)) {
+        console.error('Invalid quantity value:', quantitySpan.textContent);
+        return; 
+    }
+
+    if (action === 'increase') {
+        quantity += 1;
+    } else if (action === 'decrease') {
+        if (quantity > 1) {
+            quantity -= 1;
+        } else if (quantity === 1) {
+            updateQuantity(itemId, 0, variant);
+            document.getElementById('variant-quantity-buttons-' + itemId).style.display = 'none';
+            document.getElementById('variant-add-button-' + itemId).style.display = 'inline-block';
+        }
+    }
+
+    $(`#variant-quantity-${itemId}`).text(quantity);
+    updateQuantity(itemId, quantity, variant);
+
+    console.log(action.charAt(0).toUpperCase() + action.slice(1) + ' clicked:', {
+        itemId: itemId,
+        newQuantity: quantity,
+        variant: variant
+    });
+}
+
+
+
+function itemQuantity(itemId, itemPrice, action) {
+    const addButtonId = 'add-button-' + itemId;
+    const quantityButtonsId = 'quantity-buttons-' + itemId;
+    const quantitySpanId = 'quantity-' + itemId;
+
+    const quantityButtons = document.getElementById(quantityButtonsId);
+    const quantitySpan = document.getElementById(quantitySpanId);
+    const itemControls = quantityButtons.closest('.item-controls'); 
+
+    let quantity = parseInt(quantitySpan ? quantitySpan.textContent : 0, 10); 
+
+    if (isNaN(quantity)) {
+        console.error('Invalid quantity value for item ID:', itemId);
+        return;
+    }
+
+    if (action === 'increase') {
+        quantity += 1;
+        if (quantitySpan) {
+            quantitySpan.textContent = quantity;
+        }
+        updateQuantity(itemId, quantity);
+    } else if (action === 'decrease') {
+        if (quantity > 1) {
+            quantity -= 1;
+            if (quantitySpan) {
+                quantitySpan.textContent = quantity;
+            }
+            updateQuantity(itemId, quantity);
+        } else if (quantity === 1) {
+            quantityButtons.style.display = 'none';
+
+            let addButton = document.getElementById(addButtonId);
+            if (!addButton) {
+                const addButtonHtml = `
+                    <button type="button" class="add-button" id="${addButtonId}" data-item-id="${itemId}" data-item-new="new" onclick="addToCart(${itemId}, ${itemPrice});">Add</button>
+                `;
+                itemControls.insertAdjacentHTML('beforeend', addButtonHtml);
+            } else {
+                addButton.style.display = 'inline-block';
+            }
+
+            updateQuantity(itemId, 0);
+        }
+    }
+}
+
+
+
+        </script>
+      </body>
+    </html>

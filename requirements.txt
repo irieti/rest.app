@@ -1,0 +1,6 @@
+Django==5.1.2
+cryptography==43.0.0
+pycryptodome==3.21.0
+requests==2.32.3
+python-telegram-bot==20.2
+pyOpenSSL==24.2.1

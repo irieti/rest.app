@@ -1,0 +1,439 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="initial-scale=1, width=device-width" />
+    {% load static %}
+
+    <link rel="stylesheet" href="{% static 'order-style.css' %}" />
+
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap"
+    />
+    <style>
+       
+    </style>
+  </head>
+  <body>
+    <div class="checkout">
+      <div class="checkout-inner">
+        <div class="frame-parent">
+          <div class="name-wrapper">
+            <a class="name">Checkout</a>
+          </div>
+          <div class="default-button">
+            <img class="iconclose" alt="" src="./public/iconclose@2x.png" />
+          </div>
+        </div>
+      </div>
+
+      <section class="frame-group">
+        <div class="name1">Seu pedido:</div>
+        <div class="busket-item">
+          <div class="content">
+            <div class="left">
+              {% for item in order.items.all %}
+              <div class="order-item" data-item-name="{{ item.menu_item.name }}" data-order-id="{{ order.order_id }}" data-item-id="{{ item.id }}">
+                <div class="item-details">
+                  <div class="item-name">
+                    {{ item.menu_item.name_pt }} {% if item.variant %} ({{item.variant.name_pt }}) {% endif %}
+                  </div>
+                  <div class="item-price">Preço: €<span class="price-value">{{ item.price }}</span></div>
+                </div>
+                <div class="quantity-control" data-item-id="{{ item.menu_item.id }}">
+                  <button class="quantity-btn decrease" data-item-id="{{ item.menu_item.id }}" data-item-variant="{{item.variant.name_pt}}">-</button>
+                  <span class="quantity" id="quantity-{{ item.menu_item.id }}{% if item.variant %}-{{ item.variant.name_pt }}{% endif %}" 
+                  data-item-id="{{ item.menu_item.id }}" 
+                  data-item-variant="{{ item.variant.name_pt }}">
+              {{ item.quantity }}
+            </span>
+                  <button class="quantity-btn increase" data-item-id="{{ item.menu_item.id }}" data-item-variant="{{item.variant.name_pt}}">+</button>
+              </div>
+              <button class="remove-item" data-order-id="{{ order.order_id }}" data-item-id="{{ item.menu_item.id }}" data-item-variant="{{item.variant.name_pt}}">Remover</button>
+          </div>
+              {% endfor %}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="label-container">
+        <div class="label10">
+          <div class="name3">Serviço opcional</div>
+        </div>
+        <div class="tips-buttons-wrapper">
+          <div class="tips-buttons" data-order-id="{{ order.order_id }}">
+            <div class="tips-button">
+              <button type="button" class="tip-values">5%</button>
+              </div>
+            <div class="tips-button1">
+              <button type="button" class="div6">10%</button>
+            </div>
+            <div class="tips-button2">
+              <button type="button" class="div8">15%</button>
+            </div>
+            <div class="tips-button3">
+              <button type="button" class="div10">Outro</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="divider-parent">
+        <div class="divider4">
+          <div class="divider5"></div>
+        </div>
+        <div class="list-parent">
+          <div class="list">
+            <div class="container">
+                <div class="vat-included" style="font-size: small; color: grey;">IVA incluído à taxa em vigor</div>
+              </div>
+          </div>
+          <div class="list1">
+            <div class="container1">
+                <div class="label13">Data</div>
+              </div>
+              <div class="label14">{{ order.formatted_created_at }}</div>
+        </div>
+        <div class="list1">
+        <div class="container1">
+          <div class="label13">Pedido</div>
+        </div>
+        <div class="label14">{{ order.order_id }}</div>
+      </div> </div>
+          </div>
+        </div>
+      </section>
+
+      <div class="payment-methods">
+        <h2 class="payment-title">Método de pagamento</h2>
+      
+        <label class="payment-option">
+          <div class="payment-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <rect fill="#808080" x="4" y="6" width="16" height="12"/>
+              <rect fill="#666666" x="6" y="8" width="12" height="8"/>
+            </svg>
+          </div>
+          <span class="payment-label">Dados pessoais</span>
+          <input type="radio" name="payment_method" value="cash" class="payment-radio">
+        </label>
+      
+        <label class="payment-option">
+          <div class="payment-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24">
+              <rect fill="#808080" x="2" y="6" width="20" height="12" rx="2"/>
+              <rect fill="#666666" x="4" y="8" width="4" height="3"/>
+            </svg>
+          </div>
+          <span class="payment-label">Cartão bancário</span>
+          <input type="radio" name="payment_method" value="credit_card" class="payment-radio">
+        </label>
+      </div>
+    
+        <form method="post" class="client-form">
+          {% csrf_token %}
+          <h2 class="form-title">Informações do cliente</h2>
+          
+    
+          {% for field in form %}
+              <div class="form-group">
+                  {% if field.name != 'invoice' %}
+                      <label class="form-label" for="{{ field.id_for_label }}">
+                          {{ field.label }}
+                      </label>
+                      {{ field }}
+                  {% else %}
+                      <label class="form-label">{{ field.label }}</label>
+                      <div class="checkbox-group">
+                        <label class="checkbox-option">
+                            {{ form.invoice }}
+                        </label>
+                    </div>
+                  {% endif %}
+              </div>
+          {% endfor %}
+
+    
+        <div class="button-with-price-wrapper">
+          <button class="button-with-price" type="button" id="button-total" onclick="handlePayment({{order.order_id}}, {{order.total_amount}})">Prosseguir para o pagamento<span class="label17">{{ order.total_amount }} €</span></div>
+        </div> 
+      </section>
+    </div>
+  </form>
+
+  <input type="hidden" id="tableId" value="{{ table_id }}">
+  <input type="hidden" id="orderId" value="{{ order.order_id }}">
+  <input type="hidden" id="lang" value="{{ lang }}">
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+
+      
+
+      const tableId = document.getElementById("tableId").value;
+      const orderId = document.getElementById("orderId").value;
+      const lng = document.getElementById("lang").value;
+
+      let baseTotal = {{ order.total_amount|floatformat:2 }};
+
+      function updateQuantity(itemId, quantity, variant = null) {
+        const csrftoken = getCookie('csrftoken');
+    
+        console.log('Updating quantity:', {
+            itemId: itemId,
+            quantity: quantity,
+            variant: variant
+        });
+    
+        const url = `update_order_item_quantity/`;
+    
+        $.ajax({
+            url: url,
+            type: 'POST',
+            data: JSON.stringify({
+                item_id: itemId,
+                quantity: quantity,
+                variant: variant
+            }),
+            contentType: 'application/json',
+            headers: {
+                'X-CSRFToken': csrftoken
+            },
+            success: function(response) {
+                console.log('Success response:', response);
+                if (response.status === 'success') {
+                    const quantitySpan = variant 
+                        ? $(`#quantity-${itemId}-${variant}`)
+                        : $(`#quantity-${itemId}`);
+                    quantitySpan.text(quantity);
+
+                    // Прямое преобразование total_amount в число
+                    const totalAmount = parseFloat(response.total_amount);
+                    $('#button-total .label17').text(totalAmount.toFixed(2) + " €");
+                }
+            },
+            error: function(xhr, status, error) {
+                console.log('Error details:', {
+                    status: xhr.status,
+                    statusText: xhr.statusText,
+                    responseText: xhr.responseText
+                });
+                console.error('Ajax error:', error);
+            }
+        });
+    }
+
+    
+    
+      
+      function handlePayment(orderId, totalAmount) {
+      
+        const paymentMethod = document.querySelector('input[name="payment_method"]:checked');
+
+    
+      
+        if (!paymentMethod) {
+            alert('Please select a payment method.');
+            return; 
+        }
+    
+        
+        const selectedMethod = paymentMethod.value;
+    
+        
+        const formData = new FormData(document.querySelector('.client-form'));
+        const clientData = Object.fromEntries(formData.entries());
+    
+       
+        if (!clientData['name'] || !clientData['email']) {
+            alert('Please fill in the required fields: Name and Email');
+            return; 
+        }
+    
+        
+        clientData['order_id'] = orderId;
+        clientData['total_amount'] = totalAmount;
+        const url = `cash_payment/`;
+    
+        if (selectedMethod === 'cash') {
+    
+            
+          fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify(clientData) 
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.redirect_url) {
+                window.location.href = data.redirect_url;
+            } else {
+                console.log("Error:", data.error || "Unexpected error");
+            }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+        });
+            
+        } else if (selectedMethod === 'card') {
+            
+            window.location.href = `/payment_gateway/?order_id=${orderId}&amount={{ order.total_amount }}`;
+        }
+    }
+    
+    let currentTipPercentage = 0;
+    baseTotal = {{ order.total_amount|floatformat:2 }};
+
+  
+     
+      function updateTotalAmount(currentTipPercentage, orderId) {
+        const totalWithTips = baseTotal + baseTotal * (currentTipPercentage / 100);
+    
+        
+        $('#subtotal .label12').text(baseTotal.toFixed(2) + " €");
+        $('#button-total .label17').text(totalWithTips.toFixed(2) + " €");
+
+        console.log(orderId)
+    
+    }
+
+    function addTips(tipPercentage = 0) {
+  
+      currentTipPercentage = (currentTipPercentage === tipPercentage) ? 0 : tipPercentage;
+  
+      const orderId = $('.order-item').data('order-id');  
+      updateTotalAmount(currentTipPercentage, orderId);
+      
+  }
+
+      $('.tips-button').on('click', function() {
+          addTips(5); 
+      });
+  
+      $('.tips-button1').on('click', function() {
+          addTips(10); 
+      });
+  
+      $('.tips-button2').on('click', function() {
+          addTips(15); 
+      });
+  
+
+      $('.tips-button3').on('click', function() {
+          let customTip = prompt("Enter custom tip percentage:");
+          if (customTip !== null && !isNaN(customTip)) {
+              addTips(parseFloat(customTip));
+          }
+      });
+      
+
+    
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+    
+
+    $(document).ready(function() {
+      console.log('Document ready');
+  
+      $('.decrease').on('click', function() {
+          const itemId = $(this).data('item-id');
+          const variant = $(this).data('item-variant');
+          const quantitySpan = variant 
+              ? $(`#quantity-${itemId}-${variant}`)
+              : $(`#quantity-${itemId}`);
+          let quantity = parseInt(quantitySpan.text(), 10);
+          
+          if (quantity > 1) {
+              quantity -= 1;
+              quantitySpan.text(quantity); // Обновляем количество на клиенте
+              updateQuantity(itemId, quantity, variant);
+          }
+          
+          console.log('Decrease clicked:', {
+              itemId: itemId,
+              newQuantity: quantity,
+              variant: variant
+          });
+      });
+  
+      $('.increase').on('click', function() {
+          const itemId = $(this).data('item-id');
+          const variant = $(this).data('item-variant');
+          const quantitySpan = variant 
+              ? $(`#quantity-${itemId}-${variant}`)
+              : $(`#quantity-${itemId}`);
+          let quantity = parseInt(quantitySpan.text(), 10);
+          
+          quantity += 1;
+          quantitySpan.text(quantity); // Обновляем количество на клиенте
+          updateQuantity(itemId, quantity, variant);
+          
+          console.log('Increase clicked:', {
+              itemId: itemId,
+              newQuantity: quantity,
+              variant: variant
+          });
+      });
+  
+      $('.remove-item').on('click', function() {
+          const itemId = $(this).data('item-id');
+          const variant = $(this).data('item-variant');
+          const orderId = $(this).closest('.order-item').data('order-id'); 
+          const orderItem = $(this).closest('.order-item');
+  
+          const url = `remove_item_from_cart/`;
+          
+          $.ajax({
+              url: url,
+              type: 'POST',
+              data: JSON.stringify({
+                  item_id: itemId,
+                  order_id: orderId,
+                  variant: variant,
+                  csrfmiddlewaretoken: '{{ csrf_token }}'
+              }),
+              contentType: 'application/json',
+              headers: {
+                  'X-CSRFToken': getCookie('csrftoken')
+              },
+              success: function(response) {
+                  console.log('Response from server:', response);
+                  if (response.status === 'success') {
+                      orderItem.remove();
+                      
+                      if (response.total_amount) { 
+                          const totalAmount = parseFloat(response.total_amount); 
+                          $('#total-amount').text(totalAmount.toFixed(2) + " €");
+                          $('#button-total .label17').text(totalAmount.toFixed(2) + " €");
+                          $('#subtotal .label12').text(totalAmount.toFixed(2) + " €");
+                      }
+                  } else {
+                      console.error('Error removing item:', response.message);
+                  }
+              }
+          });
+      });
+    });
+  
+          
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+body {
+  margin: 0;
+  line-height: normal;
+}
+
+:root {
+  /* fonts */
+  --text-16-regular: Inter;
+
+  /* font sizes */
+  --text-16-regular-size: 16px;
+  --text-14-regular-size: 14px;
+  --h1-mobile-size: 24px;
+  --h2-mobile-size: 20px;
+
+  /* Colors */
+  --white: #fff;
+  --lightest-grey: #ebebed;
+  --light-grey: #e0e0e6;
+  --black: #342d48;
+  --dark-grey: #716c7f;
+
+  /* Gaps */
+  --gap-base: 16px;
+  --gap-5xs: 8px;
+  --gap-xs: 12px;
+
+  /* Paddings */
+  --padding-base: 16px;
+  --padding-5xl: 2px;
+  --padding-5xs: 8px;
+  --padding-xs: 12px;
+  --padding-xl: 20px;
+
+  /* Border radiuses */
+  --br-base: 16px;
+  --br-5xl: 24px;
+
+  /* Effects */
+  --shadow-header: 0px 4px 24px rgba(0, 0, 0, 0.1);
+  --shadow-button: 0px 0px 12px rgba(0, 0, 0, 0.1),
+    0px 2px 4px rgba(0, 0, 0, 0.08);
+}

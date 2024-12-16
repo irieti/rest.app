@@ -60,3 +60,152 @@ Starting development server at http://0.0.0.0:8000/
 Quit the server with CONTROL-C.
 
 Watching for file changes with StatReloader
+[16/Dec/2024 18:00:03] "GET /en/table/1/order/1734371557/order_details/ HTTP/1.1" 200 17975
+Not Found: /en/table/1/order/1734371557/order_details/public/iconclose@2x.png
+[16/Dec/2024 18:00:03] "GET /en/table/1/order/1734371557/order_details/public/iconclose@2x.png HTTP/1.1" 404 7466
+[16/Dec/2024 18:00:06] "POST /en/table/1/order/1734371557/order_details/update_order_item_quantity/ HTTP/1.1" 200 107
+[16/Dec/2024 18:00:07] "POST /en/table/1/order/1734371557/order_details/update_order_item_quantity/ HTTP/1.1" 200 107
+[16/Dec/2024 18:00:32] "POST /en/table/1/order/1734371557/order_details/card_payment/ HTTP/1.1" 302 0
+[16/Dec/2024 18:00:58] "GET /en/table/1/order/1734371557/order_details/ HTTP/1.1" 200 17975
+Not Found: /en/table/1/order/1734371557/order_details/public/iconclose@2x.png
+[16/Dec/2024 18:00:58] "GET /en/table/1/order/1734371557/order_details/public/iconclose@2x.png HTTP/1.1" 404 7466
+[16/Dec/2024 18:01:28] "POST /en/table/1/order/1734371557/order_details/card_payment/ HTTP/1.1" 302 0
+[16/Dec/2024 18:01:37] "POST /en/table/1/order/1734371557/order_details/card_payment/ HTTP/1.1" 302 0
+/Users/irie/om3/restaurant/payments/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 16, 2024 - 16:58:43
+Django version 5.1.2, using settings 'restaurant.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Received data: item_id=40, quantity=4, variant=, order_id=1734371557
+OrderItem found: 3 x Oysters "Margo" in Order 195
+Received data: item_id=40, quantity=3, variant=, order_id=1734371557
+OrderItem found: 4 x Oysters "Margo" in Order 195
+Calculated Signature: jOqZd7GALlRzvQzg84/llrWalYXMQRlpD0lFDCMzbTkqMAMpBh57n3Wt8dSU4DrhJh9a6bWlEamqtO4XMO7zyynocaHqKfyAyuIlV+VR9NjszNeJab6F5TSpxSq6vnW1c0p2KIfIQDFX00tCLf108bSfo1XT65R4S3ip46ViU5w=
+
+Final POST request data:
+IPCmethod: IPCPurchase
+IPCVersion: 1.4
+IPCLanguage: EN
+SID: 000000000000010
+walletnumber: 61938166610
+Amount: 23.45
+Currency: EUR
+OrderID: pavelom1730665302
+URL_OK: http://site.ext/paymentOK
+URL_Cancel: http://site.ext/paymentNOK
+URL_Notify: https://site.ext/paymentNotify
+CardTokenRequest: 0
+KeyIndex: 1
+PaymentParametersRequired: 1
+customeremail: name@website.com
+customerfirstnames: John Santamaria
+customerfamilyname: Smith
+customerphone: +23568956958
+customercountry: DEU
+customercity: Hamburg
+customerzipcode: 20095
+customeraddress: Kleine Bahnstr. 41
+Note: 
+CartItems: 2
+Article_1: HP ProBook 6360b sticker
+Quantity_1: 2
+Price_1: 10
+Currency_1: EUR
+Amount_1: 20
+Article_2: Delivery
+Quantity_2: 1
+Price_2: 3.45
+Currency_2: EUR
+Amount_2: 3.45
+Signature: jOqZd7GALlRzvQzg84/llrWalYXMQRlpD0lFDCMzbTkqMAMpBh57n3Wt8dSU4DrhJh9a6bWlEamqtO4XMO7zyynocaHqKfyAyuIlV+VR9NjszNeJab6F5TSpxSq6vnW1c0p2KIfIQDFX00tCLf108bSfo1XT65R4S3ip46ViU5w=
+Calculated Signature: jOqZd7GALlRzvQzg84/llrWalYXMQRlpD0lFDCMzbTkqMAMpBh57n3Wt8dSU4DrhJh9a6bWlEamqtO4XMO7zyynocaHqKfyAyuIlV+VR9NjszNeJab6F5TSpxSq6vnW1c0p2KIfIQDFX00tCLf108bSfo1XT65R4S3ip46ViU5w=
+
+Final POST request data:
+IPCmethod: IPCPurchase
+IPCVersion: 1.4
+IPCLanguage: EN
+SID: 000000000000010
+walletnumber: 61938166610
+Amount: 23.45
+Currency: EUR
+OrderID: pavelom1730665302
+URL_OK: http://site.ext/paymentOK
+URL_Cancel: http://site.ext/paymentNOK
+URL_Notify: https://site.ext/paymentNotify
+CardTokenRequest: 0
+KeyIndex: 1
+PaymentParametersRequired: 1
+customeremail: name@website.com
+customerfirstnames: John Santamaria
+customerfamilyname: Smith
+customerphone: +23568956958
+customercountry: DEU
+customercity: Hamburg
+customerzipcode: 20095
+customeraddress: Kleine Bahnstr. 41
+Note: 
+CartItems: 2
+Article_1: HP ProBook 6360b sticker
+Quantity_1: 2
+Price_1: 10
+Currency_1: EUR
+Amount_1: 20
+Article_2: Delivery
+Quantity_2: 1
+Price_2: 3.45
+Currency_2: EUR
+Amount_2: 3.45
+Signature: jOqZd7GALlRzvQzg84/llrWalYXMQRlpD0lFDCMzbTkqMAMpBh57n3Wt8dSU4DrhJh9a6bWlEamqtO4XMO7zyynocaHqKfyAyuIlV+VR9NjszNeJab6F5TSpxSq6vnW1c0p2KIfIQDFX00tCLf108bSfo1XT65R4S3ip46ViU5w=
+Calculated Signature: jOqZd7GALlRzvQzg84/llrWalYXMQRlpD0lFDCMzbTkqMAMpBh57n3Wt8dSU4DrhJh9a6bWlEamqtO4XMO7zyynocaHqKfyAyuIlV+VR9NjszNeJab6F5TSpxSq6vnW1c0p2KIfIQDFX00tCLf108bSfo1XT65R4S3ip46ViU5w=
+
+Final POST request data:
+IPCmethod: IPCPurchase
+IPCVersion: 1.4
+IPCLanguage: EN
+SID: 000000000000010
+walletnumber: 61938166610
+Amount: 23.45
+Currency: EUR
+OrderID: pavelom1730665302
+URL_OK: http://site.ext/paymentOK
+URL_Cancel: http://site.ext/paymentNOK
+URL_Notify: https://site.ext/paymentNotify
+CardTokenRequest: 0
+KeyIndex: 1
+PaymentParametersRequired: 1
+customeremail: name@website.com
+customerfirstnames: John Santamaria
+customerfamilyname: Smith
+customerphone: +23568956958
+customercountry: DEU
+customercity: Hamburg
+customerzipcode: 20095
+customeraddress: Kleine Bahnstr. 41
+Note: 
+CartItems: 2
+Article_1: HP ProBook 6360b sticker
+Quantity_1: 2
+Price_1: 10
+Currency_1: EUR
+Amount_1: 20
+Article_2: Delivery
+Quantity_2: 1
+Price_2: 3.45
+Currency_2: EUR
+Amount_2: 3.45
+Signature: jOqZd7GALlRzvQzg84/llrWalYXMQRlpD0lFDCMzbTkqMAMpBh57n3Wt8dSU4DrhJh9a6bWlEamqtO4XMO7zyynocaHqKfyAyuIlV+VR9NjszNeJab6F5TSpxSq6vnW1c0p2KIfIQDFX00tCLf108bSfo1XT65R4S3ip46ViU5w=
+Watching for file changes with StatReloader
+/Users/irie/om3/restaurant/payments/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 16, 2024 - 18:17:03
+Django version 5.1.2, using settings 'restaurant.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader

@@ -656,82 +656,91 @@ def payment_notify(request, table_id, lang):
     return HttpResponse(status=400)
 
 
+from django.http import JsonResponse, HttpResponseRedirect
+
+
+from django.http import JsonResponse
+import base64
+import requests
+from cryptography.hazmat.primitives import hashes
+from cryptography.hazmat.primitives.asymmetric import padding
+from cryptography.hazmat.primitives import serialization
+
+
 def start_payment(request, table_id, lang, order_id):
-    # order_id = "1730665302"
-    # amount = "129.80"
-    # currency = "EUR"
+    try:
+        # Prepare data for the myPOS API
+        data = {
+            "IPCmethod": "IPCPurchase",
+            "IPCVersion": "1.4",
+            "IPCLanguage": "EN",
+            "SID": "000000000000010",
+            "walletnumber": "61938166610",
+            "Amount": "23.45",
+            "Currency": "EUR",
+            "OrderID": "pavelom1730665302",
+            "URL_OK": "http://site.ext/paymentOK",
+            "URL_Cancel": "http://site.ext/paymentNOK",
+            "URL_Notify": "https://site.ext/paymentNotify",
+            "CardTokenRequest": "0",
+            "KeyIndex": "1",
+            "PaymentParametersRequired": "1",
+            "customeremail": "name@website.com",
+            "customerfirstnames": "John Santamaria",
+            "customerfamilyname": "Smith",
+            "customerphone": "+23568956958",
+            "customercountry": "DEU",
+            "customercity": "Hamburg",
+            "customerzipcode": "20095",
+            "customeraddress": "Kleine Bahnstr. 41",
+            "Note": "",
+            "CartItems": "2",
+            "Article_1": "HP ProBook 6360b sticker",
+            "Quantity_1": "2",
+            "Price_1": "10",
+            "Currency_1": "EUR",
+            "Amount_1": "20",
+            "Article_2": "Delivery",
+            "Quantity_2": "1",
+            "Price_2": "3.45",
+            "Currency_2": "EUR",
+            "Amount_2": "3.45",
+        }
 
-    # Prepare data for the myPOS API
-    data = {
-        "IPCmethod": "IPCPurchase",
-        "IPCVersion": "1.4",
-        "IPCLanguage": "EN",
-        "SID": "000000000000010",
-        "walletnumber": "61938166610",
-        "Amount": "23.45",
-        "Currency": "EUR",
-        "OrderID": "pavelom1730665302",
-        "URL_OK": "http://site.ext/paymentOK",
-        "URL_Cancel": "http://site.ext/paymentNOK",
-        "URL_Notify": "https://site.ext/paymentNotify",
-        "CardTokenRequest": "0",
-        "KeyIndex": "1",
-        "PaymentParametersRequired": "1",
-        "customeremail": "name@website.com",
-        "customerfirstnames": "John Santamaria",
-        "customerfamilyname": "Smith",
-        "customerphone": "+23568956958",
-        "customercountry": "DEU",
-        "customercity": "Hamburg",
-        "customerzipcode": "20095",
-        "customeraddress": "Kleine Bahnstr. 41",
-        "Note": "",
-        "CartItems": "2",
-        "Article_1": "HP ProBook 6360b sticker",
-        "Quantity_1": "2",
-        "Price_1": "10",
-        "Currency_1": "EUR",
-        "Amount_1": "20",
-        "Article_2": "Delivery",
-        "Quantity_2": "1",
-        "Price_2": "3.45",
-        "Currency_2": "EUR",
-        "Amount_2": "3.45",
-    }
+        # Concatenate the values and base64 encode them
+        conc_data = base64.b64encode(
+            "-".join(str(v) for v in data.values()).encode()
+        ).decode()
 
-    # Concatenate the values and base64 encode them
-    conc_data = base64.b64encode(
-        "-".join(str(v) for v in data.values()).encode()
-    ).decode()
+        # Load the RSA private key from the SECRET_KEY string
+        private_key_obj = serialization.load_pem_private_key(
+            SECRET_KEY.encode(), password=None, backend=default_backend()
+        )
 
-    # Load the RSA private key from the SECRET_KEY string
-    private_key_obj = serialization.load_pem_private_key(
-        SECRET_KEY.encode(), password=None, backend=default_backend()
-    )
+        # Sign the concatenated data
+        signature = private_key_obj.sign(
+            conc_data.encode(), padding.PKCS1v15(), hashes.SHA256()
+        )
 
-    # Sign the concatenated data
-    signature = private_key_obj.sign(
-        conc_data.encode(), padding.PKCS1v15(), hashes.SHA256()
-    )
+        # Base64 encode the signature
+        signature = base64.b64encode(signature).decode()
 
-    # Base64 encode the signature
-    signature = base64.b64encode(signature).decode()
+        data["Signature"] = signature
 
-    data["Signature"] = signature
+        # Send the POST request to myPOS
+        response = requests.post("https://www.mypos.com/vmp/checkout-test", data=data)
 
-    # Print the result
-    print("Calculated Signature:", signature)
-    print("\nFinal POST request data:")
-    for key, value in data.items():
-        print(f"{key}: {value}")
+        if response.status_code == 200:
+            # Успешный запрос
+            return JsonResponse(
+                {"redirect_url": "https://www.mypos.com/vmp/checkout-test"}
+            )
+        else:
+            # Ошибка от myPOS
+            return JsonResponse(
+                {"error": f"Payment failed: {response.text}"}, status=400
+            )
 
-    # Send the POST request to myPOS
-    response = requests.post("https://www.mypos.com/vmp/checkout-test", data=data)
-
-    if response.status_code == 200:
-        # Redirect to myPOS payment page
-        return redirect("https://www.mypos.com/vmp/checkout-test")
-    else:
-        # Handle error
-        print("Error:", response.status_code, response.text)
-        pass
+    except Exception as e:
+        # Обработка исключений
+        return JsonResponse({"error": str(e)}, status=500)

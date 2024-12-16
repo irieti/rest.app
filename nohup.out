@@ -209,3 +209,13 @@ Starting development server at http://0.0.0.0:8000/
 Quit the server with CONTROL-C.
 
 Watching for file changes with StatReloader
+/Users/irie/om3/restaurant/payments/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 16, 2024 - 18:22:07
+Django version 5.1.2, using settings 'restaurant.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader

@@ -678,7 +678,7 @@ def start_payment(request, table_id, lang, order_id):
             "walletnumber": "61938166610",
             "Amount": "23.45",
             "Currency": "EUR",
-            "OrderID": "pavelom1730665302",
+            "OrderID": "20120331999999",
             "URL_OK": "http://site.ext/paymentOK",
             "URL_Cancel": "http://site.ext/paymentNOK",
             "URL_Notify": "https://site.ext/paymentNotify",

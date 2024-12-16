@@ -86,6 +86,11 @@ urlpatterns = [
         name="cash_payment",
     ),
     path(
+        "<str:lang>/table/<int:table_id>/order/<str:order_id>/order_details/card_payment/",
+        views.start_payment,
+        name="card_payment",
+    ),
+    path(
         "<str:lang>/table/<int:table_id>/order/<str:order_id>/order_details/update_order_item_quantity/",
         views.update_order_item_quantity,
         name="update_order_item_quantity",

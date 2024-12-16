@@ -656,10 +656,10 @@ def payment_notify(request, table_id, lang):
     return HttpResponse(status=400)
 
 
-def start_payment():
-    order_id = "1730665302"
-    amount = "129.80"
-    currency = "EUR"
+def start_payment(request, table_id, lang, order_id):
+    # order_id = "1730665302"
+    # amount = "129.80"
+    # currency = "EUR"
 
     # Prepare data for the myPOS API
     data = {
@@ -727,9 +727,6 @@ def start_payment():
 
     # Send the POST request to myPOS
     response = requests.post("https://www.mypos.com/vmp/checkout-test", data=data)
-
-    # Output the response
-    print(response.text)
 
     if response.status_code == 200:
         # Redirect to myPOS payment page

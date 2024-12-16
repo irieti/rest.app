@@ -256,6 +256,7 @@
       clientData['order_id'] = orderId;
       clientData['total_amount'] = totalAmount;
       const url = `cash_payment/`;
+      const url_card = `card_payment/`;
   
       if (selectedMethod === 'cash') {
   
@@ -281,7 +282,26 @@
       });
           
       } else if (selectedMethod === 'card') {
+
+        fetch(url_card, {
+          method: 'POST',
+          headers: {'Content-Type': 'application/json',
+          'X-CSRFToken': '{{ csrf_token }}'},
+          body: JSON.stringify(clientData)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.redirect_url) {
+                window.location.href = data.redirect_url;
+            } else {
+                console.log("Error:", data.error || "Unexpected error");
+            }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+        });
           
+
           window.location.href = `/payment_gateway/?order_id=${orderId}&amount={{ order.total_amount }}`;
       }
   }

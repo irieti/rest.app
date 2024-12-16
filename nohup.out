@@ -9,3 +9,54 @@ Starting development server at http://0.0.0.0:8000/
 Quit the server with CONTROL-C.
 
 Watching for file changes with StatReloader
+[14/Dec/2024 11:49:46] "GET /en/table/1/ HTTP/1.1" 200 115479
+Not Found: /en/table/1/public/iconplaceholder.svg
+[14/Dec/2024 11:49:46] "GET /en/table/1/public/iconplaceholder.svg HTTP/1.1" 404 7120
+[14/Dec/2024 11:49:46] "GET /static/path/to/placeholder.jpg HTTP/1.1" 404 1887
+[14/Dec/2024 11:49:53] "POST /en/table/1/ HTTP/1.1" 200 115479
+Not Found: /en/table/1/public/iconplaceholder.svg
+[14/Dec/2024 11:49:53] "GET /en/table/1/public/iconplaceholder.svg HTTP/1.1" 404 7120
+[14/Dec/2024 11:49:53] "GET /static/path/to/placeholder.jpg HTTP/1.1" 404 1887
+[14/Dec/2024 11:49:55] "GET /static/path/to/placeholder.jpg HTTP/1.1" 404 1887
+[14/Dec/2024 11:49:55] "GET /static/path/to/placeholder.jpg HTTP/1.1" 404 1887
+[14/Dec/2024 11:49:58] "GET /en/table/1/item-details/?item_id=39 HTTP/1.1" 200 3499
+/Users/irie/om3/restaurant/payments/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 14, 2024 - 10:34:48
+Django version 5.1.2, using settings 'restaurant.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+/Users/irie/om3/restaurant/payments/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 16, 2024 - 14:32:47
+Django version 5.1.2, using settings 'restaurant.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+/Users/irie/om3/restaurant/restaurant/urls.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 16, 2024 - 16:56:18
+Django version 5.1.2, using settings 'restaurant.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader
+/Users/irie/om3/restaurant/payments/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 16, 2024 - 16:58:00
+Django version 5.1.2, using settings 'restaurant.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Watching for file changes with StatReloader

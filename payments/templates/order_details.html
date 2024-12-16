@@ -283,16 +283,13 @@
           
       } else if (selectedMethod === 'credit_card') {
 
-        fetch('/process-payment/', {
+        fetch(url_card, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/json',
               'X-CSRFToken': '{{ csrf_token }}'
           },
-          body: JSON.stringify({
-              order_id: 123,
-              amount: "23.45"
-          })
+          body: JSON.stringify(clientData)
       })
       .then(response => response.json())
       .then(data => {

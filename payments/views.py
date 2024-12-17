@@ -678,7 +678,7 @@ def start_payment(request, table_id, lang, order_id):
             "walletnumber": "61938166610",
             "Amount": "23.45",
             "Currency": "EUR",
-            "OrderID": "20120331999999",
+            "OrderID": "pavelom1730665302",
             "URL_OK": "http://site.ext/paymentOK",
             "URL_Cancel": "http://site.ext/paymentNOK",
             "URL_Notify": "https://site.ext/paymentNotify",
@@ -712,18 +712,24 @@ def start_payment(request, table_id, lang, order_id):
             "-".join(str(v) for v in data.values()).encode()
         ).decode()
 
+        print(f"Concatenate the values and base64 encoded {conc_data}")
+
         # Load the RSA private key from the SECRET_KEY string
         private_key_obj = serialization.load_pem_private_key(
             SECRET_KEY.encode(), password=None, backend=default_backend()
         )
+        print(f"Load the RSA private key from the SECRET_KEY string {private_key_obj}")
 
         # Sign the concatenated data
         signature = private_key_obj.sign(
             conc_data.encode(), padding.PKCS1v15(), hashes.SHA256()
         )
+        print(f"signature = {signature}")
 
         # Base64 encode the signature
         signature = base64.b64encode(signature).decode()
+
+        print(f"signature base64 = {signature}")
 
         data["Signature"] = signature
 

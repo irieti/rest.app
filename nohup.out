@@ -219,3 +219,18 @@ Starting development server at http://0.0.0.0:8000/
 Quit the server with CONTROL-C.
 
 Watching for file changes with StatReloader
+/Users/irie/om3/restaurant/payments/views.py changed, reloading.
+Performing system checks...
+
+System check identified no issues (0 silenced).
+December 16, 2024 - 19:07:04
+Django version 5.1.2, using settings 'restaurant.settings'
+Starting development server at http://0.0.0.0:8000/
+Quit the server with CONTROL-C.
+
+Fatal Python error: init_sys_streams: can't initialize sys standard streams
+Python runtime state: core initialized
+OSError: [Errno 9] Bad file descriptor
+
+Current thread 0x00000001f8efcc00 (most recent call first):
+  <no Python frame>

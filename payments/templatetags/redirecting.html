@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Redirecting to Payment</title>
+    </head>
+    <body onload="document.forms[0].submit();">
+        <!-- Форма для отправки POST-запроса -->
+        <form method="POST" action="https://www.mypos.com/vmp/checkout-test">
+            <input type="hidden" name="IPCmethod" value="IPCPurchase" />
+            <input type="hidden" name="IPCVersion" value="1.4" />
+            <input type="hidden" name="IPCLanguage" value="EN" />
+            <input type="hidden" name="SID" value="000000000000010" />
+            <input type="hidden" name="walletnumber" value="61938166610" />
+            <input type="hidden" name="Amount" value="23.45" />
+            <input type="hidden" name="Currency" value="EUR" />
+            <input
+                type="hidden"
+                name="OrderID"
+                value="pavelom17306653097kjk6"
+            />
+            <input
+                type="hidden"
+                name="URL_OK"
+                value="http://site.ext/paymentOK"
+            />
+            <input
+                type="hidden"
+                name="URL_Cancel"
+                value="http://site.ext/paymentNOK"
+            />
+            <input
+                type="hidden"
+                name="URL_Notify"
+                value="https://site.ext/paymentNotify"
+            />
+            <input type="hidden" name="CardTokenRequest" value="0" />
+            <input type="hidden" name="KeyIndex" value="1" />
+            <input type="hidden" name="PaymentParametersRequired" value="1" />
+            <input
+                type="hidden"
+                name="customeremail"
+                value="name@website.com"
+            />
+            <input
+                type="hidden"
+                name="customerfirstnames"
+                value="John Santamaria"
+            />
+            <input type="hidden" name="customerfamilyname" value="Smith" />
+            <input type="hidden" name="customerphone" value="+23568956958" />
+            <input type="hidden" name="customercountry" value="DEU" />
+            <input type="hidden" name="customercity" value="Hamburg" />
+            <input type="hidden" name="customerzipcode" value="20095" />
+            <input
+                type="hidden"
+                name="customeraddress"
+                value="Kleine Bahnstr. 41"
+            />
+            <input type="hidden" name="CartItems" value="2" />
+            <input
+                type="hidden"
+                name="Article_1"
+                value="HP ProBook 6360b sticker"
+            />
+            <input type="hidden" name="Quantity_1" value="2" />
+            <input type="hidden" name="Price_1" value="10" />
+            <input type="hidden" name="Currency_1" value="EUR" />
+            <input type="hidden" name="Amount_1" value="20" />
+            <input type="hidden" name="Article_2" value="Delivery" />
+            <input type="hidden" name="Quantity_2" value="1" />
+            <input type="hidden" name="Price_2" value="3.45" />
+            <input type="hidden" name="Currency_2" value="EUR" />
+            <input type="hidden" name="Amount_2" value="3.45" />
+        </form>
+        <p>Redirecting to payment...</p>
+    </body>
+</html>

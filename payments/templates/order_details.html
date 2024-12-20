@@ -157,7 +157,7 @@
 
     
         <div class="button-with-price-wrapper">
-          <button class="button-with-price" type="button" id="button-total" onclick="handlePayment({{order.order_id}}, {{order.total_amount}})">Proceed with total<span class="label17">{{ order.total_amount }} €</span></div>
+          <button class="button-with-price" type="button" id="button-total" onclick="handlePayment('{{order.order_id}}', {{order.total_amount}})">Proceed with total<span class="label17">{{ order.total_amount }} €</span></div>
         </div> 
       </section>
     </div>
@@ -282,28 +282,45 @@
       });
           
       } else if (selectedMethod === 'credit_card') {
-
         fetch(url_card, {
-          method: 'POST',
-          headers: {
-              'Content-Type': 'application/json',
-              'X-CSRFToken': '{{ csrf_token }}'
-          },
-          body: JSON.stringify(clientData)
-      })
-      .then(response => response.json())
-      .then(data => {
-          if (data.redirect_url) {
-              window.location.href = data.redirect_url; 
-          } else {
-              console.error("Payment error:", data.error || "Unexpected response");
-          }
-      })
-      .catch(error => console.error("Fetch error:", error));
-           
-          
-
-      }
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}' 
+            },
+            body: JSON.stringify(clientData)
+        })
+        .then(response => {
+            const contentType = response.headers.get("Content-Type");
+            if (contentType && contentType.includes("application/json")) {
+                return response.json(); 
+            } else if (contentType && contentType.includes("text/html")) {
+                return response.text(); 
+            } else {
+                throw new Error("Unexpected response type: " + contentType);
+            }
+        })
+        .then(data => {
+          if (typeof data === "object" && data.html) {
+            document.body.innerHTML = data.html;
+            const form = document.getElementById("paymentForm");
+            if (form) {
+                form.submit(); // Отправка формы
+            }
+        } else if (typeof data === "string") {
+            document.body.innerHTML = data;
+            const form = document.getElementById("paymentForm");
+            if (form) {
+                form.submit(); // Отправка формы
+            }
+        } else {
+            console.error("Unexpected response format:", data);
+        }
+        })
+        .catch(error => {
+            console.error("Fetch error:", error);
+        });
+    }
   }
   
   let currentTipPercentage = 0;

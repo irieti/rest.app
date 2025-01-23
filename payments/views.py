@@ -1,15 +1,11 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from django.views.decorators.http import require_POST
 from django.views.decorators.csrf import csrf_exempt
 from django.urls import reverse
 from django.http import JsonResponse
-from django.db import transaction
-from django.contrib import messages
-from django.conf import settings
-from .forms import PaymentForm, ClientForm
+from .forms import ClientForm
 from django.http import HttpResponse
 from .models import (
-    Payment,
     Category,
     MenuItem,
     Variant,
@@ -17,52 +13,30 @@ from .models import (
     Order,
     OrderItem,
     Client,
-    Subcategory,
 )
-import hashlib
-import hmac
 import requests
 import time
 import json
 import base64
-import hashlib
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.backends import default_backend
 from cryptography.hazmat.primitives.asymmetric import padding
-from cryptography.hazmat.primitives.asymmetric import rsa
 from cryptography.hazmat.primitives import serialization
-from Crypto.Hash import SHA256
-from Crypto.PublicKey import RSA
-from Crypto.Signature import pkcs1_15
 from cryptography.hazmat.primitives.asymmetric import padding
 from cryptography.hazmat.primitives.serialization import load_pem_private_key
-from OpenSSL import crypto
 from telegram import Bot
 import requests
 import logging
-from django.utils import translation
 from django.shortcuts import get_object_or_404, render
 from django.http import JsonResponse
-from django.utils.translation import activate
-from bs4 import BeautifulSoup
+import os
+from dotenv import load_dotenv
 
-SECRET_KEY = """-----BEGIN RSA PRIVATE KEY-----
-MIICXAIBAAKBgQCf0TdcTuphb7X+Zwekt1XKEWZDczSGecfo6vQfqvraf5VPzcnJ
-2Mc5J72HBm0u98EJHan+nle2WOZMVGItTa/2k1FRWwbt7iQ5dzDh5PEeZASg2UWe
-hoR8L8MpNBqH6h7ZITwVTfRS4LsBvlEfT7Pzhm5YJKfM+CdzDM+L9WVEGwIDAQAB
-AoGAYfKxwUtEbq8ulVrD3nnWhF+hk1k6KejdUq0dLYN29w8WjbCMKb9IaokmqWiQ
-5iZGErYxh7G4BDP8AW/+M9HXM4oqm5SEkaxhbTlgks+E1s9dTpdFQvL76TvodqSy
-l2E2BghVgLLgkdhRn9buaFzYta95JKfgyKGonNxsQA39PwECQQDKbG0Kp6KEkNgB
-srCq3Cx2od5OfiPDG8g3RYZKx/O9dMy5CM160DwusVJpuywbpRhcWr3gkz0QgRMd
-IRVwyxNbAkEAyh3sipmcgN7SD8xBG/MtBYPqWP1vxhSVYPfJzuPU3gS5MRJzQHBz
-sVCLhTBY7hHSoqiqlqWYasi81JzBEwEuQQJBAKw9qGcZjyMH8JU5TDSGllr3jybx
-FFMPj8TgJs346AB8ozqLL/ThvWPpxHttJbH8QAdNuyWdg6dIfVAa95h7Y+MCQEZg
-jRDl1Bz7eWGO2c0Fq9OTz3IVLWpnmGwfW+HyaxizxFhV+FOj1GUVir9hylV7V0DU
-QjIajyv/oeDWhFQ9wQECQCydhJ6NaNQOCZh+6QTrH3TC5MeBA1Yeipoe7+BhsLNr
-cFG8s9sTxRnltcZl1dXaBSemvpNvBizn0Kzi8G3ZAgc=
------END RSA PRIVATE KEY-----"""
+load_dotenv()
 
-TELEGRAM_BOT_TOKEN = "7925230097:AAFkE1ltyStxpwOx_bxWU8xWXGSAQN6f5Sc"
+SECRET_KEY = os.getenv("SECRET_KEY")
+
+TELEGRAM_BOT_TOKEN = os.getenv("TELEGRAM_BOT_TOKEN")
 
 chat_ids = Staff.objects.values_list("chat_id", flat=True)
 
@@ -83,7 +57,6 @@ def index(request, table_id, lang):
         )
         request.session["order_id"] = order_id
 
-    # Загружаем категории
     oysters_category = Category.objects.get(name="Oysters")
     food_category = Category.objects.get(name="Food")
     cocktails_category = Category.objects.get(name="Cocktails")
@@ -334,7 +307,7 @@ def update_order_item_quantity(request, lang, table_id, order_id):
             data = json.loads(request.body)
             item_id = data.get("item_id")
             quantity = int(data.get("quantity"))
-            variant_name = data.get("variant")  # Проверяем, есть ли вариант
+            variant_name = data.get("variant")
 
             print(
                 f"Received data: item_id={item_id}, quantity={quantity}, variant={variant_name}, order_id={order_id}"
@@ -627,19 +600,18 @@ def remove_item_from_cart(request, order_id, table_id, lang):
         return JsonResponse({"status": "error", "message": str(e)})
 
 
-def payment_ok(request, table_id, lang):
+def payment_ok(request):
 
     return render(request, "payments/payment_ok.html")
 
 
-def payment_nok(request, table_id, lang):
+def payment_nok(request):
 
     return render(request, "payments/payment_nok.html")
 
 
 def payment_notify(request):
     if request.method == "POST":
-        # You can log or process the notification data if needed
         notification_data = request.POST.dict()  # Parse the incoming data
         print("Notification Data:", notification_data)
 
@@ -738,8 +710,10 @@ def start_payment(request, order_id, table_id, lang):
         """
 
         if request.headers.get("Accept") == "application/json":
-            # Если фронт запрашивает JSON, возвращаем HTML как строку
             return JsonResponse({"html": html_form})
         else:
-            # Иначе возвращаем обычный HTML
+
             return HttpResponse(html_form)
+
+
+#### WHAT WITH URLS PAYMENTOK/NOOK/NOTIFY? DO WE NEED TABLE, LANG AND ORDER?????????????????
